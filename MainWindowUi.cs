@@ -319,11 +319,13 @@ namespace MarbaxViewer
         private void dartArrowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _appS.CurrentArrowStyle = AppSettings.ArrowStyle.DartArrow;
+            SetupArrowsStyle();
         }
 
         private void quadrupleArrowToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _appS.CurrentArrowStyle = AppSettings.ArrowStyle.Quadruple;
+            SetupArrowsStyle();
         }
     }
 }
