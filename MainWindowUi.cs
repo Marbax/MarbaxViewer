@@ -31,10 +31,12 @@ namespace MarbaxViewer
 
         private void SetUpItemsVisuals()
         {
-            msMenu.BackColor = _appS.GetBackgroundColor();
-            msMenu.ForeColor = treeViewExplorer.ForeColor = _appS.GetFontdColor();
+            treeViewExplorer.ForeColor = _appS.GetBackgroundColor();
+            msMenu.ForeColor = Color.White;
             treeViewExplorer.BackColor = _appS.GetBackgroundColor();
             picBUpdate.Image = _appS.GetUpdateImage();
+            panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = _appS.GetMainColor();
+
 
         }
 
@@ -98,11 +100,13 @@ namespace MarbaxViewer
         private void purpleToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _appS.CurrentSchema = AppSettings.ColorSchemes.Purple;
+            SetUpItemsVisuals();
         }
 
         private void blueGreyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _appS.CurrentSchema = AppSettings.ColorSchemes.BlueGrey;
+            SetUpItemsVisuals();
         }
 
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)

@@ -80,7 +80,7 @@ namespace MarbaxViewer
                     return Color.FromArgb(51, 51, 51);
             }
         }
-        public Color GetFontdColor()
+        public Color GetFontColor()
         {
             switch (FormTheme)
             {
