@@ -24,18 +24,36 @@ namespace MarbaxViewer
 
         public ushort ScreenCoef { get; set; } = 4;
 
-        private bool LSlideOpened = false;
-        private bool BSlideOpened = false;
+        public bool LSlideOpened { get; set; } = false;
+        public bool BSlideOpened { get; set; } = false;
+
+        public List<string> ImageFormats { get; set; }
         public MainWindowUi(ref AppSettings appS)
         {
             InitializeComponent();
             _appS = appS;
             SetUpItemsVisuals();
+            InitDefaultImageFormats();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////__METHODS__//////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        public void InitDefaultImageFormats()
+        {
+            if (ImageFormats == null)
+            {
+                ImageFormats = new List<string>();
+                ImageFormats.Add(".jpeg");
+                ImageFormats.Add(".jpg");
+                ImageFormats.Add(".png");
+                ImageFormats.Add(".ico");
+                ImageFormats.Add(".gif");
+                ImageFormats.Add(".bmp");
+                ImageFormats.Add(".tif");
+            }
+        }
 
         private void SetUpItemsVisuals()
         {
@@ -44,6 +62,7 @@ namespace MarbaxViewer
             lvFileBrowser.ForeColor = panelFilesControlsLeftM.BackColor = panelFilesControlsRightM.BackColor = _appS.GetBackgroundColor();
 
             tvDirBrowser.BackColor = lvFileBrowser.BackColor = panelFileBrowser.BackColor = _appS.GetBackgroundColor();
+
             panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = panelFileBSlider.BackColor =
                 panelFolderPath.BackColor = panelDirTreeBotM.BackColor =
                 panelMarginInsideLeft.BackColor = panelMarginInsideRight.BackColor = _appS.GetMainColor();
@@ -60,14 +79,19 @@ namespace MarbaxViewer
 
         private void UpdateListViewFiles(string path)
         {
+            imgLCurrentDir.Images.Clear();
             lvFileBrowser.Items.Clear();
             if (AccessIsAllowed(path, FileSystemRights.Modify) && Directory.GetFiles(path).Count() > 0)
             {
-                foreach (var item in Directory.GetFiles(path))
+                foreach (string item in Directory.GetFiles(path))
                 {
-                    ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), 2);
-                    lviItem.ForeColor = _appS.GetFontColor();
-                    lvFileBrowser.Items.Add(lviItem);
+                    if (ImageFormats.Contains(Path.GetExtension(item)))
+                    {
+                        imgLCurrentDir.Images.Add(item, Image.FromFile(item));
+                        ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
+                        lviItem.ForeColor = _appS.GetFontColor();
+                        lvFileBrowser.Items.Add(lviItem);
+                    }
                 }
             }
         }
@@ -187,11 +211,15 @@ namespace MarbaxViewer
             {
                 timerLeftOpen.Start();
                 mfBtnSlide.Text = "<";
+                mfBtnSlide.Image = Properties.Resources.iconfinder_arrow_program_214661;
+
             }
             else if (panelSlideBar.Width >= this.Width / (ScreenCoef * 2))
             {
                 timerLeftClose.Start();
                 mfBtnSlide.Text = ">";
+                mfBtnSlide.Image = Properties.Resources.iconfinder_arrow_program_214661;
+
             }
         }
 
@@ -279,12 +307,11 @@ namespace MarbaxViewer
             UpdateChildeNodes(e.Node, 2);
             UpdateListViewFiles(e.Node.Name);
             mSingleLineFieldPath.Text = e.Node.Name;
-
         }
 
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
-
+            UpdateChildeNodes(e.Node, 2);
         }
     }
 }

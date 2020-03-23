@@ -43,6 +43,8 @@
             this.tvDirBrowser = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.panelSlideBarControls = new System.Windows.Forms.Panel();
+            this.picBUpdateTree = new System.Windows.Forms.PictureBox();
+            this.panelDirTreeBotM = new System.Windows.Forms.Panel();
             this.panelSlideBtn = new System.Windows.Forms.Panel();
             this.mfBtnSlide = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerLeftOpen = new System.Windows.Forms.Timer(this.components);
@@ -63,12 +65,12 @@
             this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
-            this.panelDirTreeBotM = new System.Windows.Forms.Panel();
-            this.picBUpdateTree = new System.Windows.Forms.PictureBox();
+            this.imgLCurrentDir = new System.Windows.Forms.ImageList(this.components);
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
             this.panelSlideBarControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.picBUpdateTree)).BeginInit();
             this.panelSlideBtn.SuspendLayout();
             this.panelFileBrowser.SuspendLayout();
             this.panelFileList.SuspendLayout();
@@ -79,7 +81,6 @@
             this.panelFilesControlsLeftM.SuspendLayout();
             this.panelFileBOps.SuspendLayout();
             this.panelFileBSlider.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBUpdateTree)).BeginInit();
             this.SuspendLayout();
             // 
             // msMenu
@@ -201,6 +202,27 @@
             this.panelSlideBarControls.Size = new System.Drawing.Size(179, 59);
             this.panelSlideBarControls.TabIndex = 4;
             // 
+            // picBUpdateTree
+            // 
+            this.picBUpdateTree.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.picBUpdateTree.Dock = System.Windows.Forms.DockStyle.Left;
+            this.picBUpdateTree.Image = global::MarbaxViewer.Properties.Resources.Update;
+            this.picBUpdateTree.Location = new System.Drawing.Point(0, 0);
+            this.picBUpdateTree.Name = "picBUpdateTree";
+            this.picBUpdateTree.Size = new System.Drawing.Size(51, 37);
+            this.picBUpdateTree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.picBUpdateTree.TabIndex = 3;
+            this.picBUpdateTree.TabStop = false;
+            this.picBUpdateTree.Click += new System.EventHandler(this.picBUpdate_Click);
+            // 
+            // panelDirTreeBotM
+            // 
+            this.panelDirTreeBotM.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelDirTreeBotM.Location = new System.Drawing.Point(0, 37);
+            this.panelDirTreeBotM.Name = "panelDirTreeBotM";
+            this.panelDirTreeBotM.Size = new System.Drawing.Size(179, 22);
+            this.panelDirTreeBotM.TabIndex = 4;
+            // 
             // panelSlideBtn
             // 
             this.panelSlideBtn.Controls.Add(this.mfBtnSlide);
@@ -214,6 +236,7 @@
             // 
             this.mfBtnSlide.AutoSize = true;
             this.mfBtnSlide.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mfBtnSlide.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
             this.mfBtnSlide.Cursor = System.Windows.Forms.Cursors.Hand;
             this.mfBtnSlide.Depth = 0;
             this.mfBtnSlide.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -265,7 +288,7 @@
             this.lvFileBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.lvFileBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.lvFileBrowser.HideSelection = false;
-            this.lvFileBrowser.LargeImageList = this.imageList;
+            this.lvFileBrowser.LargeImageList = this.imgLCurrentDir;
             this.lvFileBrowser.Location = new System.Drawing.Point(0, 0);
             this.lvFileBrowser.Name = "lvFileBrowser";
             this.lvFileBrowser.Size = new System.Drawing.Size(563, 241);
@@ -336,7 +359,7 @@
             // 
             // panelMarginInsideRight
             // 
-            this.panelMarginInsideRight.Location = new System.Drawing.Point(15, 38);
+            this.panelMarginInsideRight.Location = new System.Drawing.Point(17, 38);
             this.panelMarginInsideRight.Name = "panelMarginInsideRight";
             this.panelMarginInsideRight.Size = new System.Drawing.Size(35, 22);
             this.panelMarginInsideRight.TabIndex = 4;
@@ -352,7 +375,7 @@
             // 
             // panelMarginInsideLeft
             // 
-            this.panelMarginInsideLeft.Location = new System.Drawing.Point(0, 37);
+            this.panelMarginInsideLeft.Location = new System.Drawing.Point(0, 38);
             this.panelMarginInsideLeft.Name = "panelMarginInsideLeft";
             this.panelMarginInsideLeft.Size = new System.Drawing.Size(35, 22);
             this.panelMarginInsideLeft.TabIndex = 1;
@@ -403,26 +426,11 @@
             this.timerBotClose.Interval = 30;
             this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
             // 
-            // panelDirTreeBotM
+            // imgLCurrentDir
             // 
-            this.panelDirTreeBotM.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelDirTreeBotM.Location = new System.Drawing.Point(0, 37);
-            this.panelDirTreeBotM.Name = "panelDirTreeBotM";
-            this.panelDirTreeBotM.Size = new System.Drawing.Size(179, 22);
-            this.panelDirTreeBotM.TabIndex = 4;
-            // 
-            // picBUpdateTree
-            // 
-            this.picBUpdateTree.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.picBUpdateTree.Dock = System.Windows.Forms.DockStyle.Left;
-            this.picBUpdateTree.Image = global::MarbaxViewer.Properties.Resources.Update;
-            this.picBUpdateTree.Location = new System.Drawing.Point(0, 0);
-            this.picBUpdateTree.Name = "picBUpdateTree";
-            this.picBUpdateTree.Size = new System.Drawing.Size(51, 37);
-            this.picBUpdateTree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.picBUpdateTree.TabIndex = 3;
-            this.picBUpdateTree.TabStop = false;
-            this.picBUpdateTree.Click += new System.EventHandler(this.picBUpdate_Click);
+            this.imgLCurrentDir.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imgLCurrentDir.ImageSize = new System.Drawing.Size(60, 60);
+            this.imgLCurrentDir.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // MainWindowUi
             // 
@@ -439,6 +447,7 @@
             this.panelSlideBar.ResumeLayout(false);
             this.panelTree.ResumeLayout(false);
             this.panelSlideBarControls.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.picBUpdateTree)).EndInit();
             this.panelSlideBtn.ResumeLayout(false);
             this.panelSlideBtn.PerformLayout();
             this.panelFileBrowser.ResumeLayout(false);
@@ -451,7 +460,6 @@
             this.panelFileBOps.ResumeLayout(false);
             this.panelFileBSlider.ResumeLayout(false);
             this.panelFileBSlider.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.picBUpdateTree)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -494,5 +502,6 @@
         private System.Windows.Forms.Panel panelMarginInsideLeft;
         private System.Windows.Forms.Panel panelDirTreeBotM;
         private System.Windows.Forms.PictureBox picBUpdateTree;
+        private System.Windows.Forms.ImageList imgLCurrentDir;
     }
 }

@@ -143,6 +143,7 @@
     <Content Include="img\Update.png" />
     <Content Include="img\UpdateWhite.png" />
     <Content Include="img\Volume.png" />
+    <None Include="Resources\iconfinder_arrow_program_214661.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
