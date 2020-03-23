@@ -66,6 +66,9 @@
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
             this.imgLCurrentDir = new System.Windows.Forms.ImageList(this.components);
+            this.arrowStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dartArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quadrupleArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -98,7 +101,8 @@
             // 
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.colorToolStripMenuItem,
-            this.themeToolStripMenuItem});
+            this.themeToolStripMenuItem,
+            this.arrowStyleToolStripMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.testToolStripMenuItem.Text = "&Preferences";
@@ -432,6 +436,29 @@
             this.imgLCurrentDir.ImageSize = new System.Drawing.Size(60, 60);
             this.imgLCurrentDir.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // arrowStyleToolStripMenuItem
+            // 
+            this.arrowStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dartArrowToolStripMenuItem,
+            this.quadrupleArrowToolStripMenuItem});
+            this.arrowStyleToolStripMenuItem.Name = "arrowStyleToolStripMenuItem";
+            this.arrowStyleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.arrowStyleToolStripMenuItem.Text = "Arrow Style";
+            // 
+            // dartArrowToolStripMenuItem
+            // 
+            this.dartArrowToolStripMenuItem.Name = "dartArrowToolStripMenuItem";
+            this.dartArrowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.dartArrowToolStripMenuItem.Text = "Dart Arrow";
+            this.dartArrowToolStripMenuItem.Click += new System.EventHandler(this.dartArrowToolStripMenuItem_Click);
+            // 
+            // quadrupleArrowToolStripMenuItem
+            // 
+            this.quadrupleArrowToolStripMenuItem.Name = "quadrupleArrowToolStripMenuItem";
+            this.quadrupleArrowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.quadrupleArrowToolStripMenuItem.Text = "Quadruple Arrow";
+            this.quadrupleArrowToolStripMenuItem.Click += new System.EventHandler(this.quadrupleArrowToolStripMenuItem_Click);
+            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -503,5 +530,8 @@
         private System.Windows.Forms.Panel panelDirTreeBotM;
         private System.Windows.Forms.PictureBox picBUpdateTree;
         private System.Windows.Forms.ImageList imgLCurrentDir;
+        private System.Windows.Forms.ToolStripMenuItem arrowStyleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dartArrowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem quadrupleArrowToolStripMenuItem;
     }
 }

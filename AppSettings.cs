@@ -25,6 +25,27 @@ namespace MarbaxViewer
             BlueGrey
         }
 
+        private ArrowStyle _arrowStyle = ArrowStyle.DartArrow;
+
+        public ArrowStyle CurrentArrowStyle
+        {
+            get { return _arrowStyle; }
+            set { _arrowStyle = value; }
+        }
+
+        public enum ArrowStyle
+        {
+            DartArrow = 1,
+            Quadruple
+        }
+
+        public enum ArrowDirection
+        {
+            Left = 1,
+            Top,
+            Right,
+            Down
+        }
 
         public AppSettings(MaterialSkinManager.Themes theme, MaterialForm frm, ColorSchemes scheme)
         {
@@ -102,6 +123,47 @@ namespace MarbaxViewer
                     return MarbaxViewer.Properties.Resources.Update;
                 default:
                     return MarbaxViewer.Properties.Resources.Update;
+            }
+        }
+
+        public string GetArrow(ArrowDirection arrowDirection)
+        {
+            switch (_arrowStyle)
+            {
+                case ArrowStyle.DartArrow:
+                    {
+                        switch (arrowDirection)
+                        {
+                            case ArrowDirection.Left:
+                                return char.ConvertFromUtf32(11164);
+                            case ArrowDirection.Top:
+                                return char.ConvertFromUtf32(11165);
+                            case ArrowDirection.Right:
+                                return char.ConvertFromUtf32(11166);
+                            case ArrowDirection.Down:
+                                return char.ConvertFromUtf32(11167);
+                            default:
+                                return char.ConvertFromUtf32(11165);
+                        }
+                    }
+                case ArrowStyle.Quadruple:
+                    {
+                        switch (arrowDirection)
+                        {
+                            case ArrowDirection.Left:
+                                return char.ConvertFromUtf32(11077);
+                            case ArrowDirection.Top:
+                                return char.ConvertFromUtf32(10224);
+                            case ArrowDirection.Right:
+                                return char.ConvertFromUtf32(11078);
+                            case ArrowDirection.Down:
+                                return char.ConvertFromUtf32(10225);
+                            default:
+                                return char.ConvertFromUtf32(10224);
+                        }
+                    }
+                default:
+                    return char.ConvertFromUtf32(11165);
             }
         }
 

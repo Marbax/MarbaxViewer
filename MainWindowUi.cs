@@ -71,6 +71,19 @@ namespace MarbaxViewer
 
         }
 
+        private void SetupArrowsStyle()
+        {
+            if (LSlideOpened)
+                mfBtnSlide.Text = _appS.GetArrow(AppSettings.ArrowDirection.Left);
+            else
+                mfBtnSlide.Text = _appS.GetArrow(AppSettings.ArrowDirection.Right);
+
+            if (BSlideOpened)
+                mfButtonFileSlider.Text = _appS.GetArrow(AppSettings.ArrowDirection.Down);
+            else
+                mfButtonFileSlider.Text = _appS.GetArrow(AppSettings.ArrowDirection.Top);
+
+        }
         public void CloseSliders()
         {
             timerLeftClose.Start();
@@ -182,26 +195,11 @@ namespace MarbaxViewer
 
         private void MainWindowUi_Load(object sender, EventArgs e)
         {
-            if (!LSlideOpened)
+            if (!LSlideOpened && !BSlideOpened)
             {
-                panelSlideBar.Width = SliderSize;
-                mfBtnSlide.Text = ">";
+                CloseSliders();
             }
-            else
-            {
-                panelSlideBar.Width = this.Width / ScreenCoef;
-                mfBtnSlide.Text = "<";
-            }
-            if (!BSlideOpened)
-            {
-                panelFileBOps.Height = SliderSize;
-                mfButtonFileSlider.Text = "^";
-            }
-            else
-            {
-                panelFileBOps.Height = this.Width / ScreenCoef;
-                mfButtonFileSlider.Text = "v";
-            }
+
             UpdateTreeViewCatalogs();
         }
 
@@ -210,16 +208,10 @@ namespace MarbaxViewer
             if (panelSlideBar.Width <= this.Width / (ScreenCoef * 2))
             {
                 timerLeftOpen.Start();
-                mfBtnSlide.Text = "<";
-                mfBtnSlide.Image = Properties.Resources.iconfinder_arrow_program_214661;
-
             }
             else if (panelSlideBar.Width >= this.Width / (ScreenCoef * 2))
             {
                 timerLeftClose.Start();
-                mfBtnSlide.Text = ">";
-                mfBtnSlide.Image = Properties.Resources.iconfinder_arrow_program_214661;
-
             }
         }
 
@@ -257,22 +249,20 @@ namespace MarbaxViewer
         private void mfButtonFileSlider_Click(object sender, EventArgs e)
         {
             if (panelFileBOps.Height <= this.Height / (ScreenCoef * 2))
-            {
                 timerBotOpen.Start();
-                mfButtonFileSlider.Text = "v";
-            }
             else if (panelFileBOps.Height >= this.Height / (ScreenCoef * 2))
-            {
                 timerBotClose.Start();
-                mfButtonFileSlider.Text = "^";
-            }
 
         }
 
         private void timerLeftOpen_Tick(object sender, EventArgs e)
         {
             if (panelSlideBar.Width >= this.Width / ScreenCoef)
+            {
                 timerLeftOpen.Stop();
+                LSlideOpened = true;
+                SetupArrowsStyle();
+            }
             else
                 panelSlideBar.Width += MoveSpeed;
         }
@@ -280,7 +270,11 @@ namespace MarbaxViewer
         private void timerLeftClose_Tick(object sender, EventArgs e)
         {
             if (panelSlideBar.Width <= SliderSize)
+            {
                 timerLeftClose.Stop();
+                LSlideOpened = false;
+                SetupArrowsStyle();
+            }
             else
                 panelSlideBar.Width -= MoveSpeed;
         }
@@ -288,7 +282,11 @@ namespace MarbaxViewer
         private void timerBotOpen_Tick(object sender, EventArgs e)
         {
             if (panelFileBOps.Height >= this.Height / ScreenCoef)
+            {
                 timerBotOpen.Stop();
+                BSlideOpened = true;
+                SetupArrowsStyle();
+            }
             else
                 panelFileBOps.Height += MoveSpeed;
         }
@@ -296,7 +294,11 @@ namespace MarbaxViewer
         private void timerBotClose_Tick(object sender, EventArgs e)
         {
             if (panelFileBOps.Height <= SliderSize)
+            {
                 timerBotClose.Stop();
+                BSlideOpened = false;
+                SetupArrowsStyle();
+            }
             else
                 panelFileBOps.Height -= MoveSpeed;
 
@@ -312,6 +314,16 @@ namespace MarbaxViewer
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
             UpdateChildeNodes(e.Node, 2);
+        }
+
+        private void dartArrowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _appS.CurrentArrowStyle = AppSettings.ArrowStyle.DartArrow;
+        }
+
+        private void quadrupleArrowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _appS.CurrentArrowStyle = AppSettings.ArrowStyle.Quadruple;
         }
     }
 }
