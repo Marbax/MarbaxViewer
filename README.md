@@ -9,7 +9,7 @@ https://github.com/Viki4Tech/MaterialDesign - additional controls added from
 
 </p></details>
 
-<details><summary> Techniczl Task  </summary><p>
+<details><summary> Technical Task  </summary><p>
 
 ### Создать приложение «Галерея изображений».
   **Основная задача приложения:**

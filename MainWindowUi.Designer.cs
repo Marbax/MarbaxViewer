@@ -38,20 +38,33 @@
             this.darkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSlideBar = new System.Windows.Forms.Panel();
-            this.treeViewExplorer = new System.Windows.Forms.TreeView();
-            this.mfBtnSlide = new MaterialSkin.Controls.MaterialFlatButton();
-            this.timerOpen = new System.Windows.Forms.Timer(this.components);
-            this.timerClose = new System.Windows.Forms.Timer(this.components);
+            this.panelTree = new System.Windows.Forms.Panel();
+            this.tvDirBrowser = new System.Windows.Forms.TreeView();
+            this.panelSlideBarControls = new System.Windows.Forms.Panel();
             this.picBUpdate = new System.Windows.Forms.PictureBox();
             this.panelSlideBtn = new System.Windows.Forms.Panel();
-            this.panelSlideBarControls = new System.Windows.Forms.Panel();
-            this.panelTree = new System.Windows.Forms.Panel();
+            this.mfBtnSlide = new MaterialSkin.Controls.MaterialFlatButton();
+            this.timerLeftOpen = new System.Windows.Forms.Timer(this.components);
+            this.timerLeftClose = new System.Windows.Forms.Timer(this.components);
+            this.panelFileBrowser = new System.Windows.Forms.Panel();
+            this.panelFileList = new System.Windows.Forms.Panel();
+            this.lvFileBrowser = new System.Windows.Forms.ListView();
+            this.panelFileBControls = new System.Windows.Forms.Panel();
+            this.panelFileBOps = new System.Windows.Forms.Panel();
+            this.panelFileBSlider = new System.Windows.Forms.Panel();
+            this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
+            this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
+            this.timerBotClose = new System.Windows.Forms.Timer(this.components);
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
+            this.panelTree.SuspendLayout();
+            this.panelSlideBarControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBUpdate)).BeginInit();
             this.panelSlideBtn.SuspendLayout();
-            this.panelSlideBarControls.SuspendLayout();
-            this.panelTree.SuspendLayout();
+            this.panelFileBrowser.SuspendLayout();
+            this.panelFileList.SuspendLayout();
+            this.panelFileBOps.SuspendLayout();
+            this.panelFileBSlider.SuspendLayout();
             this.SuspendLayout();
             // 
             // msMenu
@@ -64,7 +77,6 @@
             this.msMenu.Size = new System.Drawing.Size(763, 24);
             this.msMenu.TabIndex = 0;
             this.msMenu.Text = "msMenu";
-            this.msMenu.ItemClicked += new System.Windows.Forms.ToolStripItemClickedEventHandler(this.menuStrip1_ItemClicked);
             // 
             // testToolStripMenuItem
             // 
@@ -81,7 +93,7 @@
             this.purpleToolStripMenuItem,
             this.blueGreyToolStripMenuItem});
             this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            this.colorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.colorToolStripMenuItem.Text = "Color";
             // 
             // purpleToolStripMenuItem
@@ -104,7 +116,7 @@
             this.darkToolStripMenuItem,
             this.lightToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
             this.themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
@@ -132,41 +144,32 @@
             this.panelSlideBar.Size = new System.Drawing.Size(200, 387);
             this.panelSlideBar.TabIndex = 1;
             // 
-            // treeViewExplorer
+            // panelTree
             // 
-            this.treeViewExplorer.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.treeViewExplorer.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeViewExplorer.Location = new System.Drawing.Point(0, 0);
-            this.treeViewExplorer.Name = "treeViewExplorer";
-            this.treeViewExplorer.Size = new System.Drawing.Size(179, 351);
-            this.treeViewExplorer.TabIndex = 0;
+            this.panelTree.Controls.Add(this.tvDirBrowser);
+            this.panelTree.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelTree.Location = new System.Drawing.Point(0, 36);
+            this.panelTree.Name = "panelTree";
+            this.panelTree.Size = new System.Drawing.Size(179, 351);
+            this.panelTree.TabIndex = 5;
             // 
-            // mfBtnSlide
+            // tvDirBrowser
             // 
-            this.mfBtnSlide.AutoSize = true;
-            this.mfBtnSlide.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.mfBtnSlide.Depth = 0;
-            this.mfBtnSlide.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mfBtnSlide.Location = new System.Drawing.Point(0, 0);
-            this.mfBtnSlide.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
-            this.mfBtnSlide.MouseState = MaterialSkin.MouseState.HOVER;
-            this.mfBtnSlide.Name = "mfBtnSlide";
-            this.mfBtnSlide.Primary = false;
-            this.mfBtnSlide.Size = new System.Drawing.Size(21, 387);
-            this.mfBtnSlide.TabIndex = 2;
-            this.mfBtnSlide.Text = "<";
-            this.mfBtnSlide.UseVisualStyleBackColor = true;
-            this.mfBtnSlide.Click += new System.EventHandler(this.mfBtnSlide_Click);
+            this.tvDirBrowser.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tvDirBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tvDirBrowser.Location = new System.Drawing.Point(0, 0);
+            this.tvDirBrowser.Name = "tvDirBrowser";
+            this.tvDirBrowser.Size = new System.Drawing.Size(179, 351);
+            this.tvDirBrowser.TabIndex = 0;
             // 
-            // timerOpen
+            // panelSlideBarControls
             // 
-            this.timerOpen.Interval = 30;
-            this.timerOpen.Tick += new System.EventHandler(this.timerOpen_Tick);
-            // 
-            // timerClose
-            // 
-            this.timerClose.Interval = 30;
-            this.timerClose.Tick += new System.EventHandler(this.timerClose_Tick);
+            this.panelSlideBarControls.Controls.Add(this.picBUpdate);
+            this.panelSlideBarControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelSlideBarControls.Location = new System.Drawing.Point(0, 0);
+            this.panelSlideBarControls.Name = "panelSlideBarControls";
+            this.panelSlideBarControls.Size = new System.Drawing.Size(179, 36);
+            this.panelSlideBarControls.TabIndex = 4;
             // 
             // picBUpdate
             // 
@@ -189,28 +192,121 @@
             this.panelSlideBtn.Size = new System.Drawing.Size(21, 387);
             this.panelSlideBtn.TabIndex = 3;
             // 
-            // panelSlideBarControls
+            // mfBtnSlide
             // 
-            this.panelSlideBarControls.Controls.Add(this.picBUpdate);
-            this.panelSlideBarControls.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panelSlideBarControls.Location = new System.Drawing.Point(0, 0);
-            this.panelSlideBarControls.Name = "panelSlideBarControls";
-            this.panelSlideBarControls.Size = new System.Drawing.Size(179, 36);
-            this.panelSlideBarControls.TabIndex = 4;
+            this.mfBtnSlide.AutoSize = true;
+            this.mfBtnSlide.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mfBtnSlide.Depth = 0;
+            this.mfBtnSlide.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mfBtnSlide.Location = new System.Drawing.Point(0, 0);
+            this.mfBtnSlide.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.mfBtnSlide.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mfBtnSlide.Name = "mfBtnSlide";
+            this.mfBtnSlide.Primary = false;
+            this.mfBtnSlide.Size = new System.Drawing.Size(21, 387);
+            this.mfBtnSlide.TabIndex = 2;
+            this.mfBtnSlide.Text = "<";
+            this.mfBtnSlide.UseVisualStyleBackColor = true;
+            this.mfBtnSlide.Click += new System.EventHandler(this.mfBtnSlide_Click);
             // 
-            // panelTree
+            // timerLeftOpen
             // 
-            this.panelTree.Controls.Add(this.treeViewExplorer);
-            this.panelTree.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelTree.Location = new System.Drawing.Point(0, 36);
-            this.panelTree.Name = "panelTree";
-            this.panelTree.Size = new System.Drawing.Size(179, 351);
-            this.panelTree.TabIndex = 5;
+            this.timerLeftOpen.Interval = 30;
+            this.timerLeftOpen.Tick += new System.EventHandler(this.timerLeftOpen_Tick);
+            // 
+            // timerLeftClose
+            // 
+            this.timerLeftClose.Interval = 30;
+            this.timerLeftClose.Tick += new System.EventHandler(this.timerLeftClose_Tick);
+            // 
+            // panelFileBrowser
+            // 
+            this.panelFileBrowser.Controls.Add(this.panelFileList);
+            this.panelFileBrowser.Controls.Add(this.panelFileBControls);
+            this.panelFileBrowser.Controls.Add(this.panelFileBOps);
+            this.panelFileBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFileBrowser.Location = new System.Drawing.Point(200, 24);
+            this.panelFileBrowser.Name = "panelFileBrowser";
+            this.panelFileBrowser.Size = new System.Drawing.Size(563, 387);
+            this.panelFileBrowser.TabIndex = 2;
+            // 
+            // panelFileList
+            // 
+            this.panelFileList.Controls.Add(this.lvFileBrowser);
+            this.panelFileList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelFileList.Location = new System.Drawing.Point(0, 36);
+            this.panelFileList.Name = "panelFileList";
+            this.panelFileList.Size = new System.Drawing.Size(563, 264);
+            this.panelFileList.TabIndex = 2;
+            // 
+            // lvFileBrowser
+            // 
+            this.lvFileBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.lvFileBrowser.HideSelection = false;
+            this.lvFileBrowser.Location = new System.Drawing.Point(0, 0);
+            this.lvFileBrowser.Name = "lvFileBrowser";
+            this.lvFileBrowser.Size = new System.Drawing.Size(563, 264);
+            this.lvFileBrowser.TabIndex = 0;
+            this.lvFileBrowser.UseCompatibleStateImageBehavior = false;
+            // 
+            // panelFileBControls
+            // 
+            this.panelFileBControls.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelFileBControls.Location = new System.Drawing.Point(0, 0);
+            this.panelFileBControls.Name = "panelFileBControls";
+            this.panelFileBControls.Size = new System.Drawing.Size(563, 36);
+            this.panelFileBControls.TabIndex = 1;
+            // 
+            // panelFileBOps
+            // 
+            this.panelFileBOps.Controls.Add(this.panelFileBSlider);
+            this.panelFileBOps.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.panelFileBOps.Location = new System.Drawing.Point(0, 300);
+            this.panelFileBOps.Name = "panelFileBOps";
+            this.panelFileBOps.Size = new System.Drawing.Size(563, 87);
+            this.panelFileBOps.TabIndex = 0;
+            // 
+            // panelFileBSlider
+            // 
+            this.panelFileBSlider.Controls.Add(this.mfButtonFileSlider);
+            this.panelFileBSlider.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panelFileBSlider.Location = new System.Drawing.Point(0, 0);
+            this.panelFileBSlider.Name = "panelFileBSlider";
+            this.panelFileBSlider.Size = new System.Drawing.Size(563, 22);
+            this.panelFileBSlider.TabIndex = 0;
+            // 
+            // mfButtonFileSlider
+            // 
+            this.mfButtonFileSlider.AutoSize = true;
+            this.mfButtonFileSlider.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.mfButtonFileSlider.Depth = 0;
+            this.mfButtonFileSlider.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mfButtonFileSlider.Location = new System.Drawing.Point(0, 0);
+            this.mfButtonFileSlider.Margin = new System.Windows.Forms.Padding(4, 6, 4, 6);
+            this.mfButtonFileSlider.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mfButtonFileSlider.Name = "mfButtonFileSlider";
+            this.mfButtonFileSlider.Primary = false;
+            this.mfButtonFileSlider.Size = new System.Drawing.Size(563, 22);
+            this.mfButtonFileSlider.TabIndex = 0;
+            this.mfButtonFileSlider.Text = "^";
+            this.mfButtonFileSlider.UseVisualStyleBackColor = true;
+            this.mfButtonFileSlider.Click += new System.EventHandler(this.mfButtonFileSlider_Click);
+            // 
+            // timerBotOpen
+            // 
+            this.timerBotOpen.Interval = 30;
+            this.timerBotOpen.Tick += new System.EventHandler(this.timerBotOpen_Tick);
+            // 
+            // timerBotClose
+            // 
+            this.timerBotClose.Interval = 30;
+            this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
             // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.panelFileBrowser);
             this.Controls.Add(this.panelSlideBar);
             this.Controls.Add(this.msMenu);
             this.Name = "MainWindowUi";
@@ -219,11 +315,16 @@
             this.msMenu.ResumeLayout(false);
             this.msMenu.PerformLayout();
             this.panelSlideBar.ResumeLayout(false);
+            this.panelTree.ResumeLayout(false);
+            this.panelSlideBarControls.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.picBUpdate)).EndInit();
             this.panelSlideBtn.ResumeLayout(false);
             this.panelSlideBtn.PerformLayout();
-            this.panelSlideBarControls.ResumeLayout(false);
-            this.panelTree.ResumeLayout(false);
+            this.panelFileBrowser.ResumeLayout(false);
+            this.panelFileList.ResumeLayout(false);
+            this.panelFileBOps.ResumeLayout(false);
+            this.panelFileBSlider.ResumeLayout(false);
+            this.panelFileBSlider.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -235,18 +336,27 @@
         private System.Windows.Forms.ToolStripMenuItem testToolStripMenuItem;
         private System.Windows.Forms.Panel panelSlideBar;
         private MaterialSkin.Controls.MaterialFlatButton mfBtnSlide;
-        private System.Windows.Forms.Timer timerOpen;
+        private System.Windows.Forms.Timer timerLeftOpen;
         private System.Windows.Forms.ToolStripMenuItem colorToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem purpleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem blueGreyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem themeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem darkToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem lightToolStripMenuItem;
-        public System.Windows.Forms.Timer timerClose;
-        private System.Windows.Forms.TreeView treeViewExplorer;
+        private System.Windows.Forms.TreeView tvDirBrowser;
         private System.Windows.Forms.PictureBox picBUpdate;
         private System.Windows.Forms.Panel panelTree;
         private System.Windows.Forms.Panel panelSlideBarControls;
         private System.Windows.Forms.Panel panelSlideBtn;
+        private System.Windows.Forms.Panel panelFileBrowser;
+        private System.Windows.Forms.Panel panelFileList;
+        private System.Windows.Forms.Panel panelFileBControls;
+        private System.Windows.Forms.Panel panelFileBOps;
+        private System.Windows.Forms.Panel panelFileBSlider;
+        private MaterialSkin.Controls.MaterialFlatButton mfButtonFileSlider;
+        private System.Windows.Forms.ListView lvFileBrowser;
+        private System.Windows.Forms.Timer timerBotOpen;
+        private System.Windows.Forms.Timer timerLeftClose;
+        private System.Windows.Forms.Timer timerBotClose;
     }
 }

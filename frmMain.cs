@@ -33,7 +33,7 @@ namespace MarbaxViewer
         private void frmMain_Resize(object sender, EventArgs e)
         {
             UpdatePanelSize();
-            _mwUI.timerClose.Start();
+            _mwUI.CloseSliders();
         }
 
         private void UpdatePanelSize()

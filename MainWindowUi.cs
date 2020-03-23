@@ -15,13 +15,14 @@ namespace MarbaxViewer
     {
         private AppSettings _appS;
 
-        public ushort SliderWidth { get; set; } = 20;
+        public ushort SliderSize { get; set; } = 20;
 
         public ushort MoveSpeed { get; set; } = 10;
 
         public ushort ScreenCoef { get; set; } = 4;
 
         private bool LSlideOpened = false;
+        private bool BSlideOpened = false;
         public MainWindowUi(ref AppSettings appS)
         {
             InitializeComponent();
@@ -29,73 +30,59 @@ namespace MarbaxViewer
             SetUpItemsVisuals();
         }
 
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////__METHODS__//////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         private void SetUpItemsVisuals()
         {
-            treeViewExplorer.ForeColor = _appS.GetBackgroundColor();
             msMenu.ForeColor = Color.White;
-            treeViewExplorer.BackColor = _appS.GetBackgroundColor();
+
+            tvDirBrowser.ForeColor = _appS.GetBackgroundColor();
+            tvDirBrowser.BackColor = panelFileBrowser.BackColor = _appS.GetBackgroundColor();
             picBUpdate.Image = _appS.GetUpdateImage();
-            panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = _appS.GetMainColor();
-
+            panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = panelFileBSlider.BackColor = _appS.GetMainColor();
 
         }
 
-        private void timerClose_Tick(object sender, EventArgs e)
+        public void CloseSliders()
         {
-            if (panelSlideBar.Width <= SliderWidth)
-                timerClose.Stop();
-            else
-                panelSlideBar.Width -= MoveSpeed;
+            timerLeftClose.Start();
+            timerBotClose.Start();
         }
 
-        private void timerOpen_Tick(object sender, EventArgs e)
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////__EVENTS__//////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        private void MainWindowUi_Load(object sender, EventArgs e)
         {
-            if (panelSlideBar.Width >= this.Width / ScreenCoef)
-                timerOpen.Stop();
+            if (!LSlideOpened)
+            {
+                panelSlideBar.Width = panelFileBSlider.Height = SliderSize;
+                mfBtnSlide.Text = ">";
+            }
             else
-                panelSlideBar.Width += MoveSpeed;
+            {
+                panelSlideBar.Width = panelFileBSlider.Height = this.Width / ScreenCoef;
+                mfBtnSlide.Text = "<";
+            }
         }
 
         private void mfBtnSlide_Click(object sender, EventArgs e)
         {
             if (panelSlideBar.Width <= this.Width / (ScreenCoef * 2))
             {
-                timerOpen.Start();
+                timerLeftOpen.Start();
                 mfBtnSlide.Text = "<";
             }
             else if (panelSlideBar.Width >= this.Width / (ScreenCoef * 2))
             {
-                timerClose.Start();
+                timerLeftClose.Start();
                 mfBtnSlide.Text = ">";
             }
         }
 
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-            //
-        }
-
-        private void MainWindowUi_Load(object sender, EventArgs e)
-        {
-            if (!LSlideOpened)
-            {
-                panelSlideBar.Width = SliderWidth;
-                mfBtnSlide.Text = ">";
-            }
-            else
-            {
-                panelSlideBar.Width = this.Width / ScreenCoef;
-                mfBtnSlide.Text = "<";
-            }
-        }
-
-
-        public void OpenLeftSlide()
-        {
-        }
-        public void CloseLeftSlide()
-        {
-        }
 
         private void purpleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -124,7 +111,55 @@ namespace MarbaxViewer
 
         private void picBUpdate_Click(object sender, EventArgs e)
         {
-            treeViewExplorer.Nodes.Clear();
+            tvDirBrowser.Nodes.Clear();
+        }
+
+        private void mfButtonFileSlider_Click(object sender, EventArgs e)
+        {
+            if (panelFileBOps.Height <= this.Height / (ScreenCoef * 2))
+            {
+                timerBotOpen.Start();
+                mfButtonFileSlider.Text = "v";
+            }
+            else if (panelFileBOps.Height >= this.Height / (ScreenCoef * 2))
+            {
+                timerBotClose.Start();
+                mfButtonFileSlider.Text = "^";
+            }
+
+        }
+
+        private void timerLeftOpen_Tick(object sender, EventArgs e)
+        {
+            if (panelSlideBar.Width >= this.Width / ScreenCoef)
+                timerLeftOpen.Stop();
+            else
+                panelSlideBar.Width += MoveSpeed;
+        }
+
+        private void timerLeftClose_Tick(object sender, EventArgs e)
+        {
+            if (panelSlideBar.Width <= SliderSize)
+                timerLeftClose.Stop();
+            else
+                panelSlideBar.Width -= MoveSpeed;
+        }
+
+        private void timerBotOpen_Tick(object sender, EventArgs e)
+        {
+            if (panelFileBOps.Height >= this.Height / ScreenCoef)
+                timerBotOpen.Stop();
+            else
+                panelFileBOps.Height += MoveSpeed;
+        }
+
+        private void timerBotClose_Tick(object sender, EventArgs e)
+        {
+            if (panelFileBOps.Height <= SliderSize)
+                timerBotClose.Stop();
+            else
+                panelFileBOps.Height -= MoveSpeed;
+
         }
     }
 }
