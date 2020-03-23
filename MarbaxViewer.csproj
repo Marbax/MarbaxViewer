@@ -137,8 +137,12 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="img\Dir.png" />
+    <Content Include="img\ImgDark.png" />
+    <Content Include="img\ImgLight.png" />
     <Content Include="img\Update.png" />
     <Content Include="img\UpdateWhite.png" />
+    <Content Include="img\Volume.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
