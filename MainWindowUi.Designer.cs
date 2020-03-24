@@ -46,6 +46,7 @@
             this.tvDirBrowser = new System.Windows.Forms.TreeView();
             this.imageList = new System.Windows.Forms.ImageList(this.components);
             this.panelSlideBarControls = new System.Windows.Forms.Panel();
+            this.mCheckBoxOnlyImages = new MaterialSkin.Controls.MaterialCheckBox();
             this.picBUpdateTree = new System.Windows.Forms.PictureBox();
             this.panelDirTreeBotM = new System.Windows.Forms.Panel();
             this.panelSlideBtn = new System.Windows.Forms.Panel();
@@ -69,6 +70,7 @@
             this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
+            this.button1 = new System.Windows.Forms.Button();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -193,20 +195,20 @@
             this.panelTree.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelTree.Location = new System.Drawing.Point(0, 59);
             this.panelTree.Name = "panelTree";
-            this.panelTree.Size = new System.Drawing.Size(179, 328);
+            this.panelTree.Size = new System.Drawing.Size(180, 328);
             this.panelTree.TabIndex = 5;
             // 
             // tvDirBrowser
             // 
             this.tvDirBrowser.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.tvDirBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tvDirBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.tvDirBrowser.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvDirBrowser.ImageIndex = 0;
             this.tvDirBrowser.ImageList = this.imageList;
             this.tvDirBrowser.Location = new System.Drawing.Point(0, 0);
             this.tvDirBrowser.Name = "tvDirBrowser";
             this.tvDirBrowser.SelectedImageIndex = 0;
-            this.tvDirBrowser.Size = new System.Drawing.Size(179, 328);
+            this.tvDirBrowser.Size = new System.Drawing.Size(180, 328);
             this.tvDirBrowser.TabIndex = 0;
             this.tvDirBrowser.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.tvDirBrowser_AfterExpand);
             this.tvDirBrowser.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDirBrowser_AfterSelect);
@@ -221,13 +223,31 @@
             // 
             // panelSlideBarControls
             // 
+            this.panelSlideBarControls.Controls.Add(this.mCheckBoxOnlyImages);
             this.panelSlideBarControls.Controls.Add(this.picBUpdateTree);
             this.panelSlideBarControls.Controls.Add(this.panelDirTreeBotM);
             this.panelSlideBarControls.Dock = System.Windows.Forms.DockStyle.Top;
             this.panelSlideBarControls.Location = new System.Drawing.Point(0, 0);
             this.panelSlideBarControls.Name = "panelSlideBarControls";
-            this.panelSlideBarControls.Size = new System.Drawing.Size(179, 59);
+            this.panelSlideBarControls.Size = new System.Drawing.Size(180, 59);
             this.panelSlideBarControls.TabIndex = 4;
+            // 
+            // mCheckBoxOnlyImages
+            // 
+            this.mCheckBoxOnlyImages.AutoSize = true;
+            this.mCheckBoxOnlyImages.Depth = 0;
+            this.mCheckBoxOnlyImages.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.mCheckBoxOnlyImages.Font = new System.Drawing.Font("Roboto", 10F);
+            this.mCheckBoxOnlyImages.Location = new System.Drawing.Point(51, 0);
+            this.mCheckBoxOnlyImages.Margin = new System.Windows.Forms.Padding(0);
+            this.mCheckBoxOnlyImages.MouseLocation = new System.Drawing.Point(-1, -1);
+            this.mCheckBoxOnlyImages.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mCheckBoxOnlyImages.Name = "mCheckBoxOnlyImages";
+            this.mCheckBoxOnlyImages.Ripple = true;
+            this.mCheckBoxOnlyImages.Size = new System.Drawing.Size(129, 36);
+            this.mCheckBoxOnlyImages.TabIndex = 1;
+            this.mCheckBoxOnlyImages.Text = "Only Images";
+            this.mCheckBoxOnlyImages.UseVisualStyleBackColor = true;
             // 
             // picBUpdateTree
             // 
@@ -236,27 +256,27 @@
             this.picBUpdateTree.Image = global::MarbaxViewer.Properties.Resources.Update;
             this.picBUpdateTree.Location = new System.Drawing.Point(0, 0);
             this.picBUpdateTree.Name = "picBUpdateTree";
-            this.picBUpdateTree.Size = new System.Drawing.Size(51, 37);
+            this.picBUpdateTree.Size = new System.Drawing.Size(51, 36);
             this.picBUpdateTree.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBUpdateTree.TabIndex = 3;
             this.picBUpdateTree.TabStop = false;
-            this.picBUpdateTree.Click += new System.EventHandler(this.picBUpdate_Click);
+            this.picBUpdateTree.Click += new System.EventHandler(this.picBUpdateTree_Click);
             // 
             // panelDirTreeBotM
             // 
             this.panelDirTreeBotM.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panelDirTreeBotM.Location = new System.Drawing.Point(0, 37);
+            this.panelDirTreeBotM.Location = new System.Drawing.Point(0, 36);
             this.panelDirTreeBotM.Name = "panelDirTreeBotM";
-            this.panelDirTreeBotM.Size = new System.Drawing.Size(179, 22);
+            this.panelDirTreeBotM.Size = new System.Drawing.Size(180, 23);
             this.panelDirTreeBotM.TabIndex = 4;
             // 
             // panelSlideBtn
             // 
             this.panelSlideBtn.Controls.Add(this.mfBtnSlide);
             this.panelSlideBtn.Dock = System.Windows.Forms.DockStyle.Right;
-            this.panelSlideBtn.Location = new System.Drawing.Point(179, 0);
+            this.panelSlideBtn.Location = new System.Drawing.Point(180, 0);
             this.panelSlideBtn.Name = "panelSlideBtn";
-            this.panelSlideBtn.Size = new System.Drawing.Size(21, 387);
+            this.panelSlideBtn.Size = new System.Drawing.Size(20, 387);
             this.panelSlideBtn.TabIndex = 3;
             // 
             // mfBtnSlide
@@ -272,7 +292,7 @@
             this.mfBtnSlide.MouseState = MaterialSkin.MouseState.HOVER;
             this.mfBtnSlide.Name = "mfBtnSlide";
             this.mfBtnSlide.Primary = false;
-            this.mfBtnSlide.Size = new System.Drawing.Size(21, 387);
+            this.mfBtnSlide.Size = new System.Drawing.Size(20, 387);
             this.mfBtnSlide.TabIndex = 2;
             this.mfBtnSlide.Text = "<";
             this.mfBtnSlide.UseVisualStyleBackColor = true;
@@ -313,7 +333,7 @@
             this.lvFileBrowser.AllowDrop = true;
             this.lvFileBrowser.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.lvFileBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lvFileBrowser.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.lvFileBrowser.Font = new System.Drawing.Font("Jokerman", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvFileBrowser.HideSelection = false;
             this.lvFileBrowser.LargeImageList = this.imgLCurrentDir;
             this.lvFileBrowser.Location = new System.Drawing.Point(0, 0);
@@ -330,6 +350,7 @@
             // 
             // panelFileBControls
             // 
+            this.panelFileBControls.Controls.Add(this.button1);
             this.panelFileBControls.Controls.Add(this.picBoxUpdateFileBrowser);
             this.panelFileBControls.Controls.Add(this.panelFolderPath);
             this.panelFileBControls.Controls.Add(this.panelFilesControlsRightM);
@@ -351,7 +372,7 @@
             this.picBoxUpdateFileBrowser.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.picBoxUpdateFileBrowser.TabIndex = 3;
             this.picBoxUpdateFileBrowser.TabStop = false;
-            this.picBoxUpdateFileBrowser.Click += new System.EventHandler(this.picBUpdate_Click);
+            this.picBoxUpdateFileBrowser.Click += new System.EventHandler(this.picBoxUpdateFileBrowser_Click);
             // 
             // panelFolderPath
             // 
@@ -394,7 +415,7 @@
             // 
             this.panelMarginInsideRight.Location = new System.Drawing.Point(17, 38);
             this.panelMarginInsideRight.Name = "panelMarginInsideRight";
-            this.panelMarginInsideRight.Size = new System.Drawing.Size(35, 22);
+            this.panelMarginInsideRight.Size = new System.Drawing.Size(35, 23);
             this.panelMarginInsideRight.TabIndex = 4;
             // 
             // panelFilesControlsLeftM
@@ -410,7 +431,7 @@
             // 
             this.panelMarginInsideLeft.Location = new System.Drawing.Point(0, 38);
             this.panelMarginInsideLeft.Name = "panelMarginInsideLeft";
-            this.panelMarginInsideLeft.Size = new System.Drawing.Size(35, 22);
+            this.panelMarginInsideLeft.Size = new System.Drawing.Size(35, 23);
             this.panelMarginInsideLeft.TabIndex = 1;
             // 
             // panelFileBOps
@@ -459,6 +480,16 @@
             this.timerBotClose.Interval = 30;
             this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(238, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -474,6 +505,7 @@
             this.panelSlideBar.ResumeLayout(false);
             this.panelTree.ResumeLayout(false);
             this.panelSlideBarControls.ResumeLayout(false);
+            this.panelSlideBarControls.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.picBUpdateTree)).EndInit();
             this.panelSlideBtn.ResumeLayout(false);
             this.panelSlideBtn.PerformLayout();
@@ -533,5 +565,7 @@
         private System.Windows.Forms.ToolStripMenuItem arrowStyleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dartArrowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quadrupleArrowToolStripMenuItem;
+        private MaterialSkin.Controls.MaterialCheckBox mCheckBoxOnlyImages;
+        private System.Windows.Forms.Button button1;
     }
 }

@@ -36,6 +36,9 @@ namespace MarbaxViewer
             _appS = appS;
             SetUpItemsVisuals();
             InitDefaultImageFormats();
+
+            //TODO
+            mCheckBoxOnlyImages.Visible = false;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -72,6 +75,9 @@ namespace MarbaxViewer
 
             picBUpdateTree.Image = picBoxUpdateFileBrowser.Image = _appS.GetUpdateImage();
 
+
+            tvDirBrowser.Font = lvFileBrowser.Font = mSingleLineFieldPath.Font = mCheckBoxOnlyImages.Font = msMenu.Font = _appS.Font;
+
         }
 
         private void SetupArrowsStyle()
@@ -107,6 +113,7 @@ namespace MarbaxViewer
                         imgLCurrentDir.Images.Add(item, Image.FromFile(item));
                         ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
                         lviItem.ForeColor = _appS.GetFontColor();
+                        lviItem.Font = _appS.Font;
                         lvFileBrowser.Items.Add(lviItem);
                     }
                 }
@@ -148,7 +155,7 @@ namespace MarbaxViewer
             }
         }
 
-        private bool AccessIsAllowed(string directoryName, FileSystemRights rights)
+        static bool AccessIsAllowed(string directoryName, FileSystemRights rights)
         {
             bool AllowingRightsIsPresent = false;
             bool ForbiddingRightsIsPresent = false;
@@ -199,10 +206,10 @@ namespace MarbaxViewer
             {
                 foreach (string volumePath in Directory.GetLogicalDrives())
                 {
-                    TreeNode volume = new TreeNode(volumePath, 0, 0);
+                    TreeNode volume = new TreeNode(volumePath.Trim(@"\".ToCharArray()), 0, 0);
                     volume.Name = volumePath;
-                    volume.NodeFont = SystemFonts.StatusFont;
-                    SimpleUpdateNode(volume, _treeInher);
+                    volume.NodeFont = _appS.Font;
+                    UpdateNodes(volume);
                     tvDirBrowser.Nodes.Add(volume);
                 }
             }
@@ -212,11 +219,18 @@ namespace MarbaxViewer
             }
         }
 
-        private bool SimpleUpdateNode(TreeNode node, int subTrees)
+        private void UpdateNodes(TreeNode node)
+        {
+            if (mCheckBoxOnlyImages.Checked)
+                UpdateNodeOnlyImageContainers(node, _treeInher);
+            else
+                DefaultNodeUpdate(node, _treeInher);
+        }
+
+        private void DefaultNodeUpdate(TreeNode node, int subTrees)
         {
             node.Nodes.Clear();
             int subTreesLeft = subTrees;
-            bool imgExist = false;
 
             if (subTreesLeft > 0)
             {
@@ -225,12 +239,38 @@ namespace MarbaxViewer
                 {
                     foreach (string dirPath in Directory.GetDirectories(node.Name))
                     {
-                        if (ImageExsts(dirPath))
+                        TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
+                        dir.Name = dirPath;
+                        dir.NodeFont = _appS.Font;
+                        DefaultNodeUpdate(dir, subTreesLeft);
+                        node.Nodes.Add(dir);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Directory check exception : {ex.Message}");
+                }
+            }
+        }
+
+        private void UpdateNodeOnlyImageContainers(TreeNode node, int subTrees)
+        {
+            node.Nodes.Clear();
+            int subTreesLeft = subTrees;
+
+            if (subTreesLeft > 0)
+            {
+                subTreesLeft--;
+                try
+                {
+                    foreach (string dirPath in Directory.GetDirectories(node.Name))
+                    {
+                        if (ImageExistsDeeper(dirPath))
                         {
                             TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
                             dir.Name = dirPath;
-                            dir.NodeFont = SystemFonts.StatusFont;
-                            SimpleUpdateNode(dir, subTreesLeft);
+                            dir.NodeFont = _appS.Font;
+                            UpdateNodeOnlyImageContainers(dir, subTreesLeft);
                             node.Nodes.Add(dir);
                         }
                     }
@@ -240,20 +280,15 @@ namespace MarbaxViewer
                     Console.WriteLine($"Directory check exception : {ex.Message}");
                 }
             }
-            return imgExist;
         }
 
-        private bool ImageExsts(string path)
+        private bool ImageExstsInDirectory(string path)
         {
             try
             {
                 foreach (string file in Directory.GetFiles(path))
-                {
                     if (ImageFormats.Contains(Path.GetExtension(file)))
-                    {
                         return true;
-                    }
-                }
             }
             catch (Exception ex)
             {
@@ -261,6 +296,25 @@ namespace MarbaxViewer
             }
             return false;
         }
+
+        //TODO
+        private bool ImageExistsDeeper(string path)
+        {
+            try
+            {
+                if (ImageExstsInDirectory(path))
+                    return true;
+                else
+                    foreach (string dirPath in Directory.GetDirectories(path))
+                        ImageExistsDeeper(dirPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Directory check exception : {ex.Message}");
+            }
+            return false;
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////__EVENTS__//////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -303,11 +357,6 @@ namespace MarbaxViewer
             _appS.FormTheme = MaterialSkinManager.Themes.LIGHT;
             SetUpItemsVisuals();
 
-        }
-
-        private void picBUpdate_Click(object sender, EventArgs e)
-        {
-            UpdateTreeViewCatalogs();
         }
 
         private void mfButtonFileSlider_Click(object sender, EventArgs e)
@@ -365,13 +414,12 @@ namespace MarbaxViewer
             }
             else
                 panelFileBOps.Height -= MoveSpeed;
-
         }
 
         private void tvDirBrowser_AfterSelect(object sender, TreeViewEventArgs e)
         {
             //UpdateChildeNodes(e.Node, _treeInher);
-            SimpleUpdateNode(e.Node, _treeInher);
+            UpdateNodes(e.Node);
             UpdateListViewFiles(e.Node.Name);
             mSingleLineFieldPath.Text = e.Node.Name;
         }
@@ -379,7 +427,7 @@ namespace MarbaxViewer
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
             //UpdateChildeNodes(e.Node, _treeInher);
-            SimpleUpdateNode(e.Node, _treeInher);
+            UpdateNodes(e.Node);
         }
 
         private void dartArrowToolStripMenuItem_Click(object sender, EventArgs e)
@@ -392,6 +440,29 @@ namespace MarbaxViewer
         {
             _appS.CurrentArrowStyle = AppSettings.ArrowStyle.Quadruple;
             SetupArrowsStyle();
+        }
+
+        private void picBoxUpdateFileBrowser_Click(object sender, EventArgs e)
+        {
+            if (tvDirBrowser.SelectedNode != null)
+            {
+                UpdateListViewFiles(tvDirBrowser.SelectedNode.Name);
+            }
+            else if (Directory.Exists(mSingleLineFieldPath.Text))
+            {
+                UpdateListViewFiles(mSingleLineFieldPath.Text);
+            }
+        }
+
+        private void picBUpdateTree_Click(object sender, EventArgs e)
+        {
+            SimpleUpdateTreeViewCatalogs();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Form frm = new frmFullScreen(ref _appS, ref lvFileBrowser);
+            frm.ShowDialog();
         }
     }
 }

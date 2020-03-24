@@ -63,9 +63,9 @@ namespace MarbaxViewer.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap iconfinder_arrow_program_214661 {
+        internal static System.Drawing.Bitmap img_not_found {
             get {
-                object obj = ResourceManager.GetObject("iconfinder_arrow_program_214661", resourceCulture);
+                object obj = ResourceManager.GetObject("img_not_found", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

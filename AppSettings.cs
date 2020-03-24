@@ -11,6 +11,11 @@ namespace MarbaxViewer
 {
     public class AppSettings
     {
+
+        // Font tmp1 = new Font("Kristen ITC", 10, FontStyle.Regular);
+        // Font tmp2 = new Font("Jokerman", 10, FontStyle.Regular);
+        public Font Font { get; set; } = new Font("Yu Gothic UI", 11, FontStyle.Regular);
+
         public MaterialSkinManager SkinManager { get; set; } = MaterialSkinManager.Instance;
 
         public MaterialSkinManager.Themes FormTheme { get => SkinManager.Theme; set => SkinManager.Theme = value; }
