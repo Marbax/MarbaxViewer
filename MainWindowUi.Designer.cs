@@ -38,6 +38,9 @@
             this.themeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.darkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.lightToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.arrowStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.dartArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.quadrupleArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelSlideBar = new System.Windows.Forms.Panel();
             this.panelTree = new System.Windows.Forms.Panel();
             this.tvDirBrowser = new System.Windows.Forms.TreeView();
@@ -52,6 +55,7 @@
             this.panelFileBrowser = new System.Windows.Forms.Panel();
             this.panelFileList = new System.Windows.Forms.Panel();
             this.lvFileBrowser = new System.Windows.Forms.ListView();
+            this.imgLCurrentDir = new System.Windows.Forms.ImageList(this.components);
             this.panelFileBControls = new System.Windows.Forms.Panel();
             this.picBoxUpdateFileBrowser = new System.Windows.Forms.PictureBox();
             this.panelFolderPath = new System.Windows.Forms.Panel();
@@ -65,10 +69,6 @@
             this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
-            this.imgLCurrentDir = new System.Windows.Forms.ImageList(this.components);
-            this.arrowStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.dartArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.quadrupleArrowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -113,7 +113,7 @@
             this.purpleToolStripMenuItem,
             this.blueGreyToolStripMenuItem});
             this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            this.colorToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.colorToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.colorToolStripMenuItem.Text = "Color";
             // 
             // purpleToolStripMenuItem
@@ -136,7 +136,7 @@
             this.darkToolStripMenuItem,
             this.lightToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(110, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
@@ -152,6 +152,29 @@
             this.lightToolStripMenuItem.Size = new System.Drawing.Size(101, 22);
             this.lightToolStripMenuItem.Text = "Light";
             this.lightToolStripMenuItem.Click += new System.EventHandler(this.lightToolStripMenuItem_Click);
+            // 
+            // arrowStyleToolStripMenuItem
+            // 
+            this.arrowStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.dartArrowToolStripMenuItem,
+            this.quadrupleArrowToolStripMenuItem});
+            this.arrowStyleToolStripMenuItem.Name = "arrowStyleToolStripMenuItem";
+            this.arrowStyleToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.arrowStyleToolStripMenuItem.Text = "Arrow Style";
+            // 
+            // dartArrowToolStripMenuItem
+            // 
+            this.dartArrowToolStripMenuItem.Name = "dartArrowToolStripMenuItem";
+            this.dartArrowToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.dartArrowToolStripMenuItem.Text = "Dart Arrow";
+            this.dartArrowToolStripMenuItem.Click += new System.EventHandler(this.dartArrowToolStripMenuItem_Click);
+            // 
+            // quadrupleArrowToolStripMenuItem
+            // 
+            this.quadrupleArrowToolStripMenuItem.Name = "quadrupleArrowToolStripMenuItem";
+            this.quadrupleArrowToolStripMenuItem.Size = new System.Drawing.Size(165, 22);
+            this.quadrupleArrowToolStripMenuItem.Text = "Quadruple Arrow";
+            this.quadrupleArrowToolStripMenuItem.Click += new System.EventHandler(this.quadrupleArrowToolStripMenuItem_Click);
             // 
             // panelSlideBar
             // 
@@ -299,6 +322,12 @@
             this.lvFileBrowser.TabIndex = 0;
             this.lvFileBrowser.UseCompatibleStateImageBehavior = false;
             // 
+            // imgLCurrentDir
+            // 
+            this.imgLCurrentDir.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imgLCurrentDir.ImageSize = new System.Drawing.Size(60, 60);
+            this.imgLCurrentDir.TransparentColor = System.Drawing.Color.Transparent;
+            // 
             // panelFileBControls
             // 
             this.panelFileBControls.Controls.Add(this.picBoxUpdateFileBrowser);
@@ -429,35 +458,6 @@
             // 
             this.timerBotClose.Interval = 30;
             this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
-            // 
-            // imgLCurrentDir
-            // 
-            this.imgLCurrentDir.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
-            this.imgLCurrentDir.ImageSize = new System.Drawing.Size(60, 60);
-            this.imgLCurrentDir.TransparentColor = System.Drawing.Color.Transparent;
-            // 
-            // arrowStyleToolStripMenuItem
-            // 
-            this.arrowStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dartArrowToolStripMenuItem,
-            this.quadrupleArrowToolStripMenuItem});
-            this.arrowStyleToolStripMenuItem.Name = "arrowStyleToolStripMenuItem";
-            this.arrowStyleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.arrowStyleToolStripMenuItem.Text = "Arrow Style";
-            // 
-            // dartArrowToolStripMenuItem
-            // 
-            this.dartArrowToolStripMenuItem.Name = "dartArrowToolStripMenuItem";
-            this.dartArrowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.dartArrowToolStripMenuItem.Text = "Dart Arrow";
-            this.dartArrowToolStripMenuItem.Click += new System.EventHandler(this.dartArrowToolStripMenuItem_Click);
-            // 
-            // quadrupleArrowToolStripMenuItem
-            // 
-            this.quadrupleArrowToolStripMenuItem.Name = "quadrupleArrowToolStripMenuItem";
-            this.quadrupleArrowToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.quadrupleArrowToolStripMenuItem.Text = "Quadruple Arrow";
-            this.quadrupleArrowToolStripMenuItem.Click += new System.EventHandler(this.quadrupleArrowToolStripMenuItem_Click);
             // 
             // MainWindowUi
             // 

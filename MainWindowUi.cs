@@ -18,6 +18,8 @@ namespace MarbaxViewer
     {
         private AppSettings _appS;
 
+        private int _treeInher = 2;
+
         public ushort SliderSize { get; set; } = 20;
 
         public ushort MoveSpeed { get; set; } = 10;
@@ -195,13 +197,12 @@ namespace MarbaxViewer
             this.tvDirBrowser.Nodes.Clear();
             try
             {
-                foreach (string item in Directory.GetLogicalDrives())
+                foreach (string volumePath in Directory.GetLogicalDrives())
                 {
-                    TreeNode volume = new TreeNode(item, 0, 0);
-                    volume.Name = item;
+                    TreeNode volume = new TreeNode(volumePath, 0, 0);
+                    volume.Name = volumePath;
                     volume.NodeFont = SystemFonts.StatusFont;
-                    //UpdateChildeNodes(volume, 2);
-                    SimpleUpdateNode(volume, 2);
+                    SimpleUpdateNode(volume, _treeInher);
                     tvDirBrowser.Nodes.Add(volume);
                 }
             }
@@ -211,32 +212,55 @@ namespace MarbaxViewer
             }
         }
 
-        private void SimpleUpdateNode(TreeNode node, int subTrees)
+        private bool SimpleUpdateNode(TreeNode node, int subTrees)
         {
             node.Nodes.Clear();
             int subTreesLeft = subTrees;
+            bool imgExist = false;
+
             if (subTreesLeft > 0)
             {
                 subTreesLeft--;
-
                 try
                 {
-                    foreach (string item in Directory.GetDirectories(node.Name))
+                    foreach (string dirPath in Directory.GetDirectories(node.Name))
                     {
-                        TreeNode dir = new TreeNode(Path.GetFileName(item), 1, 1);
-                        dir.Name = item;
-                        dir.NodeFont = SystemFonts.StatusFont;
-                        SimpleUpdateNode(dir, subTreesLeft);
-                        node.Nodes.Add(dir);
+                        if (ImageExsts(dirPath))
+                        {
+                            TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
+                            dir.Name = dirPath;
+                            dir.NodeFont = SystemFonts.StatusFont;
+                            SimpleUpdateNode(dir, subTreesLeft);
+                            node.Nodes.Add(dir);
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.Message);
+                    Console.WriteLine($"Directory check exception : {ex.Message}");
                 }
             }
+            return imgExist;
         }
 
+        private bool ImageExsts(string path)
+        {
+            try
+            {
+                foreach (string file in Directory.GetFiles(path))
+                {
+                    if (ImageFormats.Contains(Path.GetExtension(file)))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"File check exception : {ex.Message}");
+            }
+            return false;
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////__EVENTS__//////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -250,13 +274,9 @@ namespace MarbaxViewer
         private void mfBtnSlide_Click(object sender, EventArgs e)
         {
             if (panelSlideBar.Width <= this.Width / (ScreenCoef * 2))
-            {
                 timerLeftOpen.Start();
-            }
             else if (panelSlideBar.Width >= this.Width / (ScreenCoef * 2))
-            {
                 timerLeftClose.Start();
-            }
         }
 
 
@@ -350,16 +370,16 @@ namespace MarbaxViewer
 
         private void tvDirBrowser_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //UpdateChildeNodes(e.Node, 2);
-            SimpleUpdateNode(e.Node, 2);
+            //UpdateChildeNodes(e.Node, _treeInher);
+            SimpleUpdateNode(e.Node, _treeInher);
             UpdateListViewFiles(e.Node.Name);
             mSingleLineFieldPath.Text = e.Node.Name;
         }
 
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //UpdateChildeNodes(e.Node, 2);
-            SimpleUpdateNode(e.Node, 2);
+            //UpdateChildeNodes(e.Node, _treeInher);
+            SimpleUpdateNode(e.Node, _treeInher);
         }
 
         private void dartArrowToolStripMenuItem_Click(object sender, EventArgs e)
