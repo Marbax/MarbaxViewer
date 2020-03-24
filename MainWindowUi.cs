@@ -27,7 +27,7 @@ namespace MarbaxViewer
         public bool LSlideOpened { get; set; } = false;
         public bool BSlideOpened { get; set; } = false;
 
-        public List<string> ImageFormats { get; set; }
+        public List<string> ImageFormats { get; set; } = null;
         public MainWindowUi(ref AppSettings appS)
         {
             InitializeComponent();
@@ -58,10 +58,11 @@ namespace MarbaxViewer
         private void SetUpItemsVisuals()
         {
             msMenu.ForeColor = Color.White;
-            tvDirBrowser.ForeColor = lvFileBrowser.ForeColor = _appS.GetFontColor();
-            lvFileBrowser.ForeColor = panelFilesControlsLeftM.BackColor = panelFilesControlsRightM.BackColor = _appS.GetBackgroundColor();
 
-            tvDirBrowser.BackColor = lvFileBrowser.BackColor = panelFileBrowser.BackColor = _appS.GetBackgroundColor();
+            tvDirBrowser.ForeColor = lvFileBrowser.ForeColor = _appS.GetFontColor();
+
+            panelFilesControlsLeftM.BackColor = panelFilesControlsRightM.BackColor = tvDirBrowser.BackColor =
+                lvFileBrowser.BackColor = panelFileBrowser.BackColor = _appS.GetBackgroundColor();
 
             panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = panelFileBSlider.BackColor =
                 panelFolderPath.BackColor = panelDirTreeBotM.BackColor =
@@ -84,6 +85,7 @@ namespace MarbaxViewer
                 mfButtonFileSlider.Text = _appS.GetArrow(AppSettings.ArrowDirection.Top);
 
         }
+
         public void CloseSliders()
         {
             timerLeftClose.Start();
@@ -144,7 +146,7 @@ namespace MarbaxViewer
             }
         }
 
-        static bool AccessIsAllowed(string directoryName, FileSystemRights rights)
+        private bool AccessIsAllowed(string directoryName, FileSystemRights rights)
         {
             bool AllowingRightsIsPresent = false;
             bool ForbiddingRightsIsPresent = false;
@@ -188,6 +190,52 @@ namespace MarbaxViewer
                 return false;
         }
 
+        private void SimpleUpdateTreeViewCatalogs()
+        {
+            this.tvDirBrowser.Nodes.Clear();
+            try
+            {
+                foreach (string item in Directory.GetLogicalDrives())
+                {
+                    TreeNode volume = new TreeNode(item, 0, 0);
+                    volume.Name = item;
+                    volume.NodeFont = SystemFonts.StatusFont;
+                    //UpdateChildeNodes(volume, 2);
+                    SimpleUpdateNode(volume, 2);
+                    tvDirBrowser.Nodes.Add(volume);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        private void SimpleUpdateNode(TreeNode node, int subTrees)
+        {
+            node.Nodes.Clear();
+            int subTreesLeft = subTrees;
+            if (subTreesLeft > 0)
+            {
+                subTreesLeft--;
+
+                try
+                {
+                    foreach (string item in Directory.GetDirectories(node.Name))
+                    {
+                        TreeNode dir = new TreeNode(Path.GetFileName(item), 1, 1);
+                        dir.Name = item;
+                        dir.NodeFont = SystemFonts.StatusFont;
+                        SimpleUpdateNode(dir, subTreesLeft);
+                        node.Nodes.Add(dir);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////__EVENTS__//////////////////////////////////////////////////////////////////////////////////////////
@@ -195,12 +243,8 @@ namespace MarbaxViewer
 
         private void MainWindowUi_Load(object sender, EventArgs e)
         {
-            if (!LSlideOpened && !BSlideOpened)
-            {
-                CloseSliders();
-            }
-
-            UpdateTreeViewCatalogs();
+            //UpdateTreeViewCatalogs();
+            SimpleUpdateTreeViewCatalogs();
         }
 
         private void mfBtnSlide_Click(object sender, EventArgs e)
@@ -306,14 +350,16 @@ namespace MarbaxViewer
 
         private void tvDirBrowser_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            UpdateChildeNodes(e.Node, 2);
+            //UpdateChildeNodes(e.Node, 2);
+            SimpleUpdateNode(e.Node, 2);
             UpdateListViewFiles(e.Node.Name);
             mSingleLineFieldPath.Text = e.Node.Name;
         }
 
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            UpdateChildeNodes(e.Node, 2);
+            //UpdateChildeNodes(e.Node, 2);
+            SimpleUpdateNode(e.Node, 2);
         }
 
         private void dartArrowToolStripMenuItem_Click(object sender, EventArgs e)
