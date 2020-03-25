@@ -128,7 +128,7 @@ namespace MarbaxViewer
                     lvFileBrowser.Items[i].Selected = true;
         }
 
-        private void CopyItemsFromListView()
+        private void CopyFilesFromListView()
         {
             System.Collections.Specialized.StringCollection files = new System.Collections.Specialized.StringCollection();
             foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
@@ -505,7 +505,7 @@ namespace MarbaxViewer
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
                 SelectAllItemsInListView();
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
-                CopyItemsFromListView();
+                CopyFilesFromListView();
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.V)
                 PasteFilesToListView();
 
