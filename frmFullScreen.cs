@@ -19,9 +19,9 @@ namespace MarbaxViewer
 
         public ushort ScreenCoef { get; set; } = 6;
 
-        public bool BSlideOpened { get; set; } = false;
+        public bool BSlideOpened { get; set; } = true;
 
-        public frmFullScreen(ref AppSettings appS, ref ListView listView)
+        public frmFullScreen(ref AppSettings appS, ref ListView listView, int selectedId)
         {
             InitializeComponent();
             _appS = appS;
@@ -33,6 +33,7 @@ namespace MarbaxViewer
             panelBSlider.BackColor = _appS.GetMainColor();
 
             FillListView(ref listView);
+            this.listViewImgPreview.Items[selectedId].Selected = true;
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -75,9 +76,9 @@ namespace MarbaxViewer
         private void frmFullScreen_Load(object sender, EventArgs e)
         {
             UpdatePanelSize();
-            panelBottomMenu.Height = this.Height / ScreenCoef;
+            if (BSlideOpened)
+                panelBottomMenu.Height = this.Height / ScreenCoef;
             SetupArrowsStyle();
-
         }
 
         private void mfBtnSlider_Click(object sender, EventArgs e)
@@ -131,10 +132,20 @@ namespace MarbaxViewer
         private void listViewImgPreview_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listViewImgPreview.SelectedIndices.Count > 0)
-                if (System.IO.File.Exists(listViewImgPreview.SelectedItems[0].ImageKey))
-                    pictureBox.Image = Image.FromFile(listViewImgPreview.SelectedItems[0].ImageKey);
-                else
-                    pictureBox.Image = pictureBox.ErrorImage;
+            {
+                string path = listViewImgPreview.SelectedItems[0].ImageKey;
+                if (System.IO.File.Exists(path))
+                {
+                    mfLabelPicName.Text = System.IO.Path.GetFileName(path);
+                    if (Image.FromFile(path).Height > pictureBox.Height || Image.FromFile(path).Width > pictureBox.Width)
+                        pictureBox.SizeMode = PictureBoxSizeMode.Zoom;
+                    else
+                        pictureBox.SizeMode = PictureBoxSizeMode.CenterImage;
+                    pictureBox.Image = Image.FromFile(path);
+                }
+            }
+            else
+                pictureBox.Image = pictureBox.ErrorImage;
         }
 
         private void mfBtnSwipeLeft_Click(object sender, EventArgs e)

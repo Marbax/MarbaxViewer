@@ -70,7 +70,6 @@
             this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
-            this.button1 = new System.Windows.Forms.Button();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -341,6 +340,7 @@
             this.lvFileBrowser.Size = new System.Drawing.Size(563, 241);
             this.lvFileBrowser.TabIndex = 0;
             this.lvFileBrowser.UseCompatibleStateImageBehavior = false;
+            this.lvFileBrowser.DoubleClick += new System.EventHandler(this.lvFileBrowser_DoubleClick);
             // 
             // imgLCurrentDir
             // 
@@ -350,7 +350,6 @@
             // 
             // panelFileBControls
             // 
-            this.panelFileBControls.Controls.Add(this.button1);
             this.panelFileBControls.Controls.Add(this.picBoxUpdateFileBrowser);
             this.panelFileBControls.Controls.Add(this.panelFolderPath);
             this.panelFileBControls.Controls.Add(this.panelFilesControlsRightM);
@@ -480,16 +479,6 @@
             this.timerBotClose.Interval = 30;
             this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(238, 8);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(75, 23);
-            this.button1.TabIndex = 4;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -566,6 +555,5 @@
         private System.Windows.Forms.ToolStripMenuItem dartArrowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quadrupleArrowToolStripMenuItem;
         private MaterialSkin.Controls.MaterialCheckBox mCheckBoxOnlyImages;
-        private System.Windows.Forms.Button button1;
     }
 }

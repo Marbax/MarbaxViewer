@@ -459,10 +459,13 @@ namespace MarbaxViewer
             SimpleUpdateTreeViewCatalogs();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void lvFileBrowser_DoubleClick(object sender, EventArgs e)
         {
-            Form frm = new frmFullScreen(ref _appS, ref lvFileBrowser);
-            frm.ShowDialog();
+            if (lvFileBrowser.SelectedIndices.Count > 0)
+            {
+                Form frm = new frmFullScreen(ref _appS, ref lvFileBrowser, lvFileBrowser.SelectedIndices[0]);
+                frm.ShowDialog();
+            }
         }
     }
 }
