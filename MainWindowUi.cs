@@ -116,10 +116,42 @@ namespace MarbaxViewer
                         lviItem.Font = _appS.Font;
                         lvFileBrowser.Items.Add(lviItem);
                     }
+                    lvFileBrowser.Tag = path;
                 }
             }
         }
 
+        private void SelectAllItemsInListView()
+        {
+            if (lvFileBrowser.Items.Count > 1)
+                for (int i = 0; i < lvFileBrowser.Items.Count; i++)
+                    lvFileBrowser.Items[i].Selected = true;
+        }
+
+        private void CopyItemsFromListView()
+        {
+            System.Collections.Specialized.StringCollection files = new System.Collections.Specialized.StringCollection();
+            foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
+                files.Add(lvItem.ImageKey);
+            Clipboard.SetFileDropList(files);
+        }
+
+        private void PasteFilesToListView()
+        {
+            System.Collections.Specialized.StringCollection files = Clipboard.GetFileDropList();
+            foreach (var file in files)
+            {
+                try
+                {
+                    File.Copy(file, $"{lvFileBrowser.Tag as string}{Path.GetFileName(file)}");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            UpdateListViewFiles(lvFileBrowser.Tag as string);
+        }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////__TREE_VIEW_METHODS__////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -464,8 +496,20 @@ namespace MarbaxViewer
             if (lvFileBrowser.SelectedIndices.Count > 0)
             {
                 Form frm = new frmFullScreen(ref _appS, ref lvFileBrowser, lvFileBrowser.SelectedIndices[0]);
-                frm.ShowDialog();
+                frm.ShowDialog(this);
             }
+        }
+
+        private void lvFileBrowser_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
+                SelectAllItemsInListView();
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
+                CopyItemsFromListView();
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.V)
+                PasteFilesToListView();
+
+
         }
     }
 }

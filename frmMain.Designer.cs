@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.panelMain = new System.Windows.Forms.Panel();
-            this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.mTabCon = new MaterialSkin.Controls.MaterialTabControl();
             this.tpMain = new System.Windows.Forms.TabPage();
             this.TPSecond = new System.Windows.Forms.TabPage();
+            this.materialTabSelector1 = new MaterialSkin.Controls.MaterialTabSelector();
             this.panelMain.SuspendLayout();
             this.mTabCon.SuspendLayout();
             this.SuspendLayout();
@@ -46,18 +46,6 @@
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(800, 538);
             this.panelMain.TabIndex = 0;
-            // 
-            // materialTabSelector1
-            // 
-            this.materialTabSelector1.BaseTabControl = this.mTabCon;
-            this.materialTabSelector1.Depth = 0;
-            this.materialTabSelector1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.materialTabSelector1.Location = new System.Drawing.Point(0, 0);
-            this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
-            this.materialTabSelector1.Name = "materialTabSelector1";
-            this.materialTabSelector1.Size = new System.Drawing.Size(800, 23);
-            this.materialTabSelector1.TabIndex = 0;
-            this.materialTabSelector1.Text = "mTabSel";
             // 
             // mTabCon
             // 
@@ -91,6 +79,18 @@
             this.TPSecond.TabIndex = 1;
             this.TPSecond.Text = "Second";
             this.TPSecond.UseVisualStyleBackColor = true;
+            // 
+            // materialTabSelector1
+            // 
+            this.materialTabSelector1.BaseTabControl = this.mTabCon;
+            this.materialTabSelector1.Depth = 0;
+            this.materialTabSelector1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.materialTabSelector1.Location = new System.Drawing.Point(0, 0);
+            this.materialTabSelector1.MouseState = MaterialSkin.MouseState.HOVER;
+            this.materialTabSelector1.Name = "materialTabSelector1";
+            this.materialTabSelector1.Size = new System.Drawing.Size(800, 23);
+            this.materialTabSelector1.TabIndex = 0;
+            this.materialTabSelector1.Text = "mTabSel";
             // 
             // frmMain
             // 

@@ -341,6 +341,7 @@
             this.lvFileBrowser.TabIndex = 0;
             this.lvFileBrowser.UseCompatibleStateImageBehavior = false;
             this.lvFileBrowser.DoubleClick += new System.EventHandler(this.lvFileBrowser_DoubleClick);
+            this.lvFileBrowser.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFileBrowser_KeyUp);
             // 
             // imgLCurrentDir
             // 
