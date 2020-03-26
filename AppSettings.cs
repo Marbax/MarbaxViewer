@@ -16,6 +16,7 @@ namespace MarbaxViewer
         // Font tmp2 = new Font("Jokerman", 10, FontStyle.Regular);
         public Font Font { get; set; } = new Font("Yu Gothic UI", 11, FontStyle.Regular);
 
+        public List<string> AllowedImageFormats;
         public MaterialSkinManager SkinManager { get; set; } = MaterialSkinManager.Instance;
 
         public MaterialSkinManager.Themes FormTheme { get => SkinManager.Theme; set => SkinManager.Theme = value; }
@@ -57,7 +58,23 @@ namespace MarbaxViewer
             FormTheme = theme;
             AddFormToManage(frm);
             SetColorScheme(scheme);
+            InitDefaultImageFormats();
         }
+        public void InitDefaultImageFormats()
+        {
+            if (AllowedImageFormats == null)
+            {
+                AllowedImageFormats = new List<string>();
+                AllowedImageFormats.Add(".jpeg");
+                AllowedImageFormats.Add(".jpg");
+                AllowedImageFormats.Add(".png");
+                AllowedImageFormats.Add(".ico");
+                AllowedImageFormats.Add(".gif");
+                AllowedImageFormats.Add(".bmp");
+                AllowedImageFormats.Add(".tif");
+            }
+        }
+
         public void AddFormToManage(MaterialForm frm)
         {
             SkinManager.AddFormToManage(frm);

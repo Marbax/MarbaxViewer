@@ -96,9 +96,9 @@
             this.mLabelStartPath.Location = new System.Drawing.Point(124, 81);
             this.mLabelStartPath.MouseState = MaterialSkin.MouseState.HOVER;
             this.mLabelStartPath.Name = "mLabelStartPath";
-            this.mLabelStartPath.Size = new System.Drawing.Size(106, 19);
+            this.mLabelStartPath.Size = new System.Drawing.Size(38, 19);
             this.mLabelStartPath.TabIndex = 6;
-            this.mLabelStartPath.Text = "Search Under :";
+            this.mLabelStartPath.Text = "path";
             // 
             // mslTextFiedFileName
             // 
@@ -115,7 +115,7 @@
             this.mslTextFiedFileName.SelectionStart = 0;
             this.mslTextFiedFileName.Size = new System.Drawing.Size(300, 23);
             this.mslTextFiedFileName.TabIndex = 7;
-            this.mslTextFiedFileName.Text = "Enter File Name";
+            this.mslTextFiedFileName.Text = "Enter_Here";
             this.mslTextFiedFileName.UseSystemPasswordChar = false;
             // 
             // mLabelSerchFor

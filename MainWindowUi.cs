@@ -32,13 +32,11 @@ namespace MarbaxViewer
         public bool BSlideOpened { get; set; } = false;
 
         private bool _moveFiles = false;
-        public List<string> ImageFormats { get; set; } = null;
         public MainWindowUi(ref AppSettings appS)
         {
             InitializeComponent();
             _appS = appS;
             SetUpItemsVisuals();
-            InitDefaultImageFormats();
             progressBarLoading.Visible = false;
 
             //TODO
@@ -49,20 +47,6 @@ namespace MarbaxViewer
         ///////////////////////////////////////////////////////////////////__METHODS__//////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        public void InitDefaultImageFormats()
-        {
-            if (ImageFormats == null)
-            {
-                ImageFormats = new List<string>();
-                ImageFormats.Add(".jpeg");
-                ImageFormats.Add(".jpg");
-                ImageFormats.Add(".png");
-                ImageFormats.Add(".ico");
-                ImageFormats.Add(".gif");
-                ImageFormats.Add(".bmp");
-                ImageFormats.Add(".tif");
-            }
-        }
 
         private void SetUpItemsVisuals()
         {
@@ -117,7 +101,7 @@ namespace MarbaxViewer
                     {
                         foreach (string item in Directory.GetFiles(path))
                         {
-                            if (ImageFormats.Contains(Path.GetExtension(item)))
+                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(item)))
                             {
                                 imgLCurrentDir.Images.Add(item, Image.FromFile(item));
                                 ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
@@ -167,7 +151,7 @@ namespace MarbaxViewer
                 Clipboard.Clear();
                 foreach (var file in files)
                 {
-                    if (ImageFormats.Contains(Path.GetExtension(file)))
+                    if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file)))
                     {
                         try
                         {
@@ -222,14 +206,13 @@ namespace MarbaxViewer
         }
         private void SearchByFileName(string startPath, string fileName)
         {
-            _foundItems.Clear();
             try
             {
                 if (Directory.Exists(startPath))
                 {
                     if (Directory.GetFiles(startPath).Count() > 0)
                         foreach (string file in Directory.GetFiles(startPath))
-                            if (ImageFormats.Contains(Path.GetExtension(file)) && Path.GetFileNameWithoutExtension(file).Contains(fileName))
+                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file)) && Path.GetFileNameWithoutExtension(file).Contains(fileName))
                                 _foundItems.Add(file);
 
                     if (Directory.GetDirectories(startPath).Count() > 0)
@@ -454,7 +437,7 @@ namespace MarbaxViewer
                     try
                     {
                         foreach (string file in Directory.GetFiles(path))
-                            if (ImageFormats.Contains(Path.GetExtension(file)))
+                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file)))
                                 return true;
                     }
                     catch (Exception ex)
@@ -690,22 +673,57 @@ namespace MarbaxViewer
         {
             if (tvDirBrowser.SelectedNode != null)
             {
+                timerExtract.Stop();
                 progressBarLoading.Visible = true;
-                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, "Search By File Name", tvDirBrowser.SelectedNode.Name);
+                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Name, tvDirBrowser.SelectedNode.Name);
                 if (searchForm.ShowDialog() == DialogResult.OK)
                 {
+                    _foundItems.Clear();
                     Cursor.Current = Cursors.WaitCursor;
                     SearchByFileName(tvDirBrowser.SelectedNode.Name, searchForm.ToFindPatter);
                     if (_foundItems.Count > 0)
                     {
-                        UpdateListViewFilesAfterSearch();
+                        UpdateListViewFilesAfterSearchWithTimer();
                         Cursor.Current = Cursors.Default;
                     }
                     else
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
+                //progressBarLoading.Visible = false;
+            }
+        }
+
+        private void timerExtract_Tick(object sender, EventArgs e)
+        {
+            if (_foundItems.Count > 0)
+            {
+                try
+                {
+                    string item = _foundItems[0];
+                    imgLCurrentDir.Images.Add(item, Image.FromFile(item));
+                    ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
+                    lviItem.ForeColor = _appS.GetFontColor();
+                    lviItem.Font = _appS.Font;
+                    lvFileBrowser.Items.Add(lviItem);
+                    _foundItems.RemoveAt(0);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Add item exception : {ex.Message}");
+                }
+            }
+            else
+            {
+                timerExtract.Stop();
                 progressBarLoading.Visible = false;
             }
+        }
+        private void UpdateListViewFilesAfterSearchWithTimer()
+        {
+            imgLCurrentDir.Images.Clear();
+            lvFileBrowser.Items.Clear();
+            timerExtract.Start();
+
         }
     }
 }

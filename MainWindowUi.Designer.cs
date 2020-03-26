@@ -74,6 +74,7 @@
             this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byFileNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBarLoading = new System.Windows.Forms.ProgressBar();
+            this.timerExtract = new System.Windows.Forms.Timer(this.components);
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -525,6 +526,11 @@
             this.progressBarLoading.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBarLoading.TabIndex = 1;
             // 
+            // timerExtract
+            // 
+            this.timerExtract.Interval = 500;
+            this.timerExtract.Tick += new System.EventHandler(this.timerExtract_Tick);
+            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -606,5 +612,6 @@
         private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byFileNameToolStripMenuItem1;
         private System.Windows.Forms.ProgressBar progressBarLoading;
+        private System.Windows.Forms.Timer timerExtract;
     }
 }
