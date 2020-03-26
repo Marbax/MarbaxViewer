@@ -70,6 +70,10 @@
             this.mfButtonFileSlider = new MaterialSkin.Controls.MaterialFlatButton();
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
+            this.mcMenuStripTree = new MaterialSkin.Controls.MaterialContextMenuStrip();
+            this.searchToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byFileNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -85,6 +89,7 @@
             this.panelFilesControlsLeftM.SuspendLayout();
             this.panelFileBOps.SuspendLayout();
             this.panelFileBSlider.SuspendLayout();
+            this.mcMenuStripTree.SuspendLayout();
             this.SuspendLayout();
             // 
             // msMenu
@@ -200,6 +205,7 @@
             // tvDirBrowser
             // 
             this.tvDirBrowser.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tvDirBrowser.ContextMenuStrip = this.mcMenuStripTree;
             this.tvDirBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvDirBrowser.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvDirBrowser.ImageIndex = 0;
@@ -376,6 +382,7 @@
             // 
             // panelFolderPath
             // 
+            this.panelFolderPath.Controls.Add(this.progressBarLoading);
             this.panelFolderPath.Controls.Add(this.mSingleLineFieldPath);
             this.panelFolderPath.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelFolderPath.Location = new System.Drawing.Point(50, 37);
@@ -481,6 +488,43 @@
             this.timerBotClose.Interval = 30;
             this.timerBotClose.Tick += new System.EventHandler(this.timerBotClose_Tick);
             // 
+            // mcMenuStripTree
+            // 
+            this.mcMenuStripTree.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.mcMenuStripTree.Depth = 0;
+            this.mcMenuStripTree.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.searchToolStripMenuItem});
+            this.mcMenuStripTree.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mcMenuStripTree.Name = "mcMenuStripTree";
+            this.mcMenuStripTree.Size = new System.Drawing.Size(110, 26);
+            // 
+            // searchToolStripMenuItem
+            // 
+            this.searchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.byFileNameToolStripMenuItem1});
+            this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.searchToolStripMenuItem.Text = "Search";
+            // 
+            // byFileNameToolStripMenuItem1
+            // 
+            this.byFileNameToolStripMenuItem1.Name = "byFileNameToolStripMenuItem1";
+            this.byFileNameToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.byFileNameToolStripMenuItem1.Text = "By File Name";
+            this.byFileNameToolStripMenuItem1.Click += new System.EventHandler(this.byFileNameToolStripMenuItem1_Click);
+            // 
+            // progressBarLoading
+            // 
+            this.progressBarLoading.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.progressBarLoading.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.progressBarLoading.ForeColor = System.Drawing.SystemColors.Control;
+            this.progressBarLoading.Location = new System.Drawing.Point(0, 0);
+            this.progressBarLoading.MarqueeAnimationSpeed = 50;
+            this.progressBarLoading.Name = "progressBarLoading";
+            this.progressBarLoading.Size = new System.Drawing.Size(463, 22);
+            this.progressBarLoading.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
+            this.progressBarLoading.TabIndex = 1;
+            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -510,6 +554,7 @@
             this.panelFileBOps.ResumeLayout(false);
             this.panelFileBSlider.ResumeLayout(false);
             this.panelFileBSlider.PerformLayout();
+            this.mcMenuStripTree.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -557,5 +602,9 @@
         private System.Windows.Forms.ToolStripMenuItem dartArrowToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem quadrupleArrowToolStripMenuItem;
         private MaterialSkin.Controls.MaterialCheckBox mCheckBoxOnlyImages;
+        private MaterialSkin.Controls.MaterialContextMenuStrip mcMenuStripTree;
+        private System.Windows.Forms.ToolStripMenuItem searchToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem byFileNameToolStripMenuItem1;
+        private System.Windows.Forms.ProgressBar progressBarLoading;
     }
 }

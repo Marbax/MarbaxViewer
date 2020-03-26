@@ -18,6 +18,8 @@ namespace MarbaxViewer
     {
         private AppSettings _appS;
 
+        List<string> _foundItems = new List<string>();
+
         private int _treeInher = 2;
 
         public ushort SliderSize { get; set; } = 20;
@@ -37,6 +39,7 @@ namespace MarbaxViewer
             _appS = appS;
             SetUpItemsVisuals();
             InitDefaultImageFormats();
+            progressBarLoading.Visible = false;
 
             //TODO
             mCheckBoxOnlyImages.Visible = false;
@@ -142,7 +145,7 @@ namespace MarbaxViewer
                 for (int i = 0; i < lvFileBrowser.Items.Count; i++)
                     lvFileBrowser.Items[i].Selected = true;
         }
-
+        //TODO
         private void CopyFilesFromListView(bool moveFiles = false)
         {
             if (moveFiles == true)
@@ -217,6 +220,52 @@ namespace MarbaxViewer
                 UpdateListViewFiles(lvFileBrowser.Tag as string);
             }
         }
+        private void SearchByFileName(string startPath, string fileName)
+        {
+            _foundItems.Clear();
+            try
+            {
+                if (Directory.Exists(startPath))
+                {
+                    if (Directory.GetFiles(startPath).Count() > 0)
+                        foreach (string file in Directory.GetFiles(startPath))
+                            if (ImageFormats.Contains(Path.GetExtension(file)) && Path.GetFileNameWithoutExtension(file).Contains(fileName))
+                                _foundItems.Add(file);
+
+                    if (Directory.GetDirectories(startPath).Count() > 0)
+                        foreach (string dir in Directory.GetDirectories(startPath))
+                            SearchByFileName(dir, fileName);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); ;
+            }
+        }
+
+        private void UpdateListViewFilesAfterSearch()
+        {
+            imgLCurrentDir.Images.Clear();
+            lvFileBrowser.Items.Clear();
+
+            foreach (string item in _foundItems)
+            {
+                try
+                {
+                    imgLCurrentDir.Images.Add(item, Image.FromFile(item));
+                    ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
+                    lviItem.ForeColor = _appS.GetFontColor();
+                    lviItem.Font = _appS.Font;
+                    lvFileBrowser.Items.Add(lviItem);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"File check Exception : {ex.Message}");
+                }
+            }
+
+        }
+
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////__TREE_VIEW_METHODS__////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -637,5 +686,26 @@ namespace MarbaxViewer
 
         }
 
+        private void byFileNameToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (tvDirBrowser.SelectedNode != null)
+            {
+                progressBarLoading.Visible = true;
+                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, "Search By File Name", tvDirBrowser.SelectedNode.Name);
+                if (searchForm.ShowDialog() == DialogResult.OK)
+                {
+                    Cursor.Current = Cursors.WaitCursor;
+                    SearchByFileName(tvDirBrowser.SelectedNode.Name, searchForm.ToFindPatter);
+                    if (_foundItems.Count > 0)
+                    {
+                        UpdateListViewFilesAfterSearch();
+                        Cursor.Current = Cursors.Default;
+                    }
+                    else
+                        MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                progressBarLoading.Visible = false;
+            }
+        }
     }
 }
