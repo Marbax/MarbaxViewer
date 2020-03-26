@@ -78,6 +78,8 @@
             this.byFileExtensionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.byFileSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mLabelItemsFound = new MaterialSkin.Controls.MaterialLabel();
+            this.byFileCreationDateToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byFileTagToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -501,16 +503,18 @@
             this.searchToolStripMenuItem});
             this.mcMenuStripTree.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripTree.Name = "mcMenuStripTree";
-            this.mcMenuStripTree.Size = new System.Drawing.Size(110, 26);
+            this.mcMenuStripTree.Size = new System.Drawing.Size(181, 48);
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.byFileNameToolStripMenuItem1,
             this.byFileExtensionToolStripMenuItem,
-            this.byFileSizeToolStripMenuItem});
+            this.byFileSizeToolStripMenuItem,
+            this.byFileCreationDateToolStripMenuItem,
+            this.byFileTagToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.searchToolStripMenuItem.Text = "Search";
             // 
             // byFileNameToolStripMenuItem1
@@ -563,6 +567,20 @@
             this.mLabelItemsFound.Size = new System.Drawing.Size(100, 19);
             this.mLabelItemsFound.TabIndex = 1;
             this.mLabelItemsFound.Text = "Items Found :";
+            // 
+            // byFileCreationDateToolStripMenuItem
+            // 
+            this.byFileCreationDateToolStripMenuItem.Name = "byFileCreationDateToolStripMenuItem";
+            this.byFileCreationDateToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.byFileCreationDateToolStripMenuItem.Text = "By File Creation Date";
+            this.byFileCreationDateToolStripMenuItem.Click += new System.EventHandler(this.byFileCreationDateToolStripMenuItem_Click);
+            // 
+            // byFileTagToolStripMenuItem
+            // 
+            this.byFileTagToolStripMenuItem.Name = "byFileTagToolStripMenuItem";
+            this.byFileTagToolStripMenuItem.Size = new System.Drawing.Size(183, 22);
+            this.byFileTagToolStripMenuItem.Text = "By File Tag";
+            this.byFileTagToolStripMenuItem.Click += new System.EventHandler(this.byFileTagToolStripMenuItem_Click);
             // 
             // MainWindowUi
             // 
@@ -650,5 +668,7 @@
         private System.Windows.Forms.ToolStripMenuItem byFileExtensionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem byFileSizeToolStripMenuItem;
         private MaterialSkin.Controls.MaterialLabel mLabelItemsFound;
+        private System.Windows.Forms.ToolStripMenuItem byFileCreationDateToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem byFileTagToolStripMenuItem;
     }
 }

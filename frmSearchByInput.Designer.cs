@@ -41,6 +41,10 @@
             this.nUpDownMin = new System.Windows.Forms.NumericUpDown();
             this.mLabelTopSize = new MaterialSkin.Controls.MaterialLabel();
             this.mLabelBotSize = new MaterialSkin.Controls.MaterialLabel();
+            this.dateTimePTop = new System.Windows.Forms.DateTimePicker();
+            this.dateTimePBot = new System.Windows.Forms.DateTimePicker();
+            this.mLabelMaxDate = new MaterialSkin.Controls.MaterialLabel();
+            this.mLabelMinDate = new MaterialSkin.Controls.MaterialLabel();
             this.panelBtns.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nUpDownMax)).BeginInit();
@@ -213,11 +217,55 @@
             this.mLabelBotSize.TabIndex = 14;
             this.mLabelBotSize.Text = "Min KB";
             // 
+            // dateTimePTop
+            // 
+            this.dateTimePTop.Location = new System.Drawing.Point(114, 144);
+            this.dateTimePTop.Name = "dateTimePTop";
+            this.dateTimePTop.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePTop.TabIndex = 15;
+            // 
+            // dateTimePBot
+            // 
+            this.dateTimePBot.Location = new System.Drawing.Point(114, 171);
+            this.dateTimePBot.Name = "dateTimePBot";
+            this.dateTimePBot.Size = new System.Drawing.Size(200, 22);
+            this.dateTimePBot.TabIndex = 16;
+            // 
+            // mLabelMaxDate
+            // 
+            this.mLabelMaxDate.AutoSize = true;
+            this.mLabelMaxDate.Depth = 0;
+            this.mLabelMaxDate.Font = new System.Drawing.Font("Roboto", 11F);
+            this.mLabelMaxDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.mLabelMaxDate.Location = new System.Drawing.Point(145, 119);
+            this.mLabelMaxDate.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mLabelMaxDate.Name = "mLabelMaxDate";
+            this.mLabelMaxDate.Size = new System.Drawing.Size(70, 19);
+            this.mLabelMaxDate.TabIndex = 17;
+            this.mLabelMaxDate.Text = "Top Date";
+            // 
+            // mLabelMinDate
+            // 
+            this.mLabelMinDate.AutoSize = true;
+            this.mLabelMinDate.Depth = 0;
+            this.mLabelMinDate.Font = new System.Drawing.Font("Roboto", 11F);
+            this.mLabelMinDate.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.mLabelMinDate.Location = new System.Drawing.Point(145, 196);
+            this.mLabelMinDate.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mLabelMinDate.Name = "mLabelMinDate";
+            this.mLabelMinDate.Size = new System.Drawing.Size(67, 19);
+            this.mLabelMinDate.TabIndex = 18;
+            this.mLabelMinDate.Text = "Bot Date";
+            // 
             // frmSearchByInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(390, 268);
+            this.Controls.Add(this.mLabelMinDate);
+            this.Controls.Add(this.mLabelMaxDate);
+            this.Controls.Add(this.dateTimePBot);
+            this.Controls.Add(this.dateTimePTop);
             this.Controls.Add(this.mLabelBotSize);
             this.Controls.Add(this.mLabelTopSize);
             this.Controls.Add(this.nUpDownMin);
@@ -263,5 +311,9 @@
         private System.Windows.Forms.NumericUpDown nUpDownMin;
         private MaterialSkin.Controls.MaterialLabel mLabelTopSize;
         private MaterialSkin.Controls.MaterialLabel mLabelBotSize;
+        private System.Windows.Forms.DateTimePicker dateTimePTop;
+        private System.Windows.Forms.DateTimePicker dateTimePBot;
+        private MaterialSkin.Controls.MaterialLabel mLabelMaxDate;
+        private MaterialSkin.Controls.MaterialLabel mLabelMinDate;
     }
 }

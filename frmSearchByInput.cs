@@ -21,13 +21,17 @@ namespace MarbaxViewer
 
         public float ToFindMinSize { get => (float)Math.Round(nUpDownMin.Value, 3); }
         public float ToFindMaxSize { get => (float)Math.Round(nUpDownMax.Value, 3); }
+
+        public DateTime ToFindMinDate { get => dateTimePBot.Value; }
+        public DateTime ToFindMaxDate { get => dateTimePTop.Value; }
         public frmSearchByInput(ref AppSettings appS, Mode searchMode, string startPath)
         {
             InitializeComponent();
             _apps = appS;
             _apps.AddFormToManage(this);
             _currentMode = searchMode;
-            mslTextFiedFileName.Visible = cbExtension.Visible = mLabelTopSize.Visible = mLabelBotSize.Visible = nUpDownMax.Visible = nUpDownMin.Visible = false;
+            mslTextFiedFileName.Visible = cbExtension.Visible = mLabelTopSize.Visible = mLabelBotSize.Visible = nUpDownMax.Visible = nUpDownMin.Visible =
+               mLabelMinDate.Visible = mLabelMaxDate.Visible = dateTimePBot.Visible = dateTimePTop.Visible = false;
             InitMode();
             this.mLabelStartPath.Text = startPath;
         }
@@ -60,6 +64,7 @@ namespace MarbaxViewer
                 case Mode.Date:
                     {
                         this.Text = "Search By File Creation Date";
+                        mLabelMinDate.Visible = mLabelMaxDate.Visible = dateTimePBot.Visible = dateTimePTop.Visible = true;
                     }
                     break;
                 case Mode.Tag:
@@ -89,7 +94,7 @@ namespace MarbaxViewer
                     {
                         if (cbExtension.SelectedIndex != -1)
                         {
-                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for filse with extension {ToFindExtension} at {DateTime.Now}");
+                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for files with extension {ToFindExtension} at {DateTime.Now}");
                             this.DialogResult = DialogResult.OK;
                         }
                     }
@@ -98,7 +103,7 @@ namespace MarbaxViewer
                     {
                         if (nUpDownMax.Value >= nUpDownMin.Value)
                         {
-                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for filse with size between {ToFindMinSize.ToString()} and {ToFindMaxSize.ToString()} at {DateTime.Now}");
+                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for files with size between {ToFindMinSize.ToString()} and {ToFindMaxSize.ToString()} at {DateTime.Now}");
                             this.DialogResult = DialogResult.OK;
                         }
                         else
@@ -106,8 +111,28 @@ namespace MarbaxViewer
                     }
                     break;
                 case Mode.Date:
+                    {
+                        if (ToFindMaxDate >= ToFindMinDate)
+                        {
+                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for files with creation date between {ToFindMinDate.ToString()} and {ToFindMaxDate.ToString()} at {DateTime.Now}");
+                            this.DialogResult = DialogResult.OK;
+                        }
+                        else
+                            dateTimePTop.BackColor = dateTimePBot.BackColor = System.Drawing.Color.OrangeRed;
+
+                    }
                     break;
                 case Mode.Tag:
+                    {
+                        if (!string.IsNullOrEmpty(ToFindText))
+                        {
+                            _apps.SearchHistory.Add($"{this.Text} under {mLabelStartPath.Text} for {ToFindText} at {DateTime.Now}");
+                            this.DialogResult = DialogResult.OK;
+                        }
+                        else
+                            mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
+
+                    }
                     break;
             }
 

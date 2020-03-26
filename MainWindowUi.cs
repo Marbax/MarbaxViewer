@@ -231,7 +231,7 @@ namespace MarbaxViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); ;
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -253,7 +253,7 @@ namespace MarbaxViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); ;
+                Console.WriteLine(ex.Message);
             }
         }
 
@@ -279,9 +279,48 @@ namespace MarbaxViewer
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message); ;
+                Console.WriteLine(ex.Message);
             }
         }
+
+        private void SearchByFileCreationDate(string startPath, DateTime min, DateTime max)
+        {
+            try
+            {
+                if (Directory.Exists(startPath))
+                {
+                    if (Directory.GetFiles(startPath).Count() > 0)
+                        foreach (string file in Directory.GetFiles(startPath))
+                        {
+                            FileInfo fi = new FileInfo(file);
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && fi.CreationTime >= min && fi.CreationTime <= max)
+                                _foundItems.Add(file);
+                        }
+
+                    if (Directory.GetDirectories(startPath).Count() > 0)
+                        foreach (string dir in Directory.GetDirectories(startPath))
+                            SearchByFileCreationDate(dir, min, max);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        //TODO
+        private void SearchByFileTag(string startPath, string fTag)
+        {
+            try
+            {
+                //TODO
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
 
         // isn't working with large files amount
         /*
@@ -827,7 +866,45 @@ namespace MarbaxViewer
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
 
+        private void byFileCreationDateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tvDirBrowser.SelectedNode != null)
+            {
+                timerExtract.Stop();
+                _foundItems.Clear();
+                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Date, tvDirBrowser.SelectedNode.Name);
+                if (searchForm.ShowDialog() == DialogResult.OK)
+                {
+                    progressBarLoading.Visible = true;
+                    Cursor.Current = Cursors.WaitCursor;
+                    SearchByFileCreationDate(tvDirBrowser.SelectedNode.Name, searchForm.ToFindMinDate, searchForm.ToFindMaxDate);
+                    if (_foundItems.Count > 0)
+                    {
+                        mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
+                        UpdateListViewFilesAfterSearchWithTimer();
+                        Cursor.Current = Cursors.Default;
+                    }
+                    else
+                        MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+        }
+
+        //TODO
+        private void byFileTagToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tvDirBrowser.SelectedNode != null)
+            {
+                timerExtract.Stop();
+                _foundItems.Clear();
+                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Tag, tvDirBrowser.SelectedNode.Name);
+                if (searchForm.ShowDialog() == DialogResult.OK)
+                {
+                    //TODO
+                }
+            }
         }
     }
 }
