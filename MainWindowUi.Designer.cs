@@ -76,6 +76,8 @@
             this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.timerExtract = new System.Windows.Forms.Timer(this.components);
             this.byFileExtensionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.byFileSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mLabelItemsFound = new MaterialSkin.Controls.MaterialLabel();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -446,6 +448,7 @@
             // 
             // panelFileBOps
             // 
+            this.panelFileBOps.Controls.Add(this.mLabelItemsFound);
             this.panelFileBOps.Controls.Add(this.panelFileBSlider);
             this.panelFileBOps.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.panelFileBOps.Location = new System.Drawing.Point(0, 300);
@@ -498,15 +501,16 @@
             this.searchToolStripMenuItem});
             this.mcMenuStripTree.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripTree.Name = "mcMenuStripTree";
-            this.mcMenuStripTree.Size = new System.Drawing.Size(181, 48);
+            this.mcMenuStripTree.Size = new System.Drawing.Size(110, 26);
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.byFileNameToolStripMenuItem1,
-            this.byFileExtensionToolStripMenuItem});
+            this.byFileExtensionToolStripMenuItem,
+            this.byFileSizeToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
             this.searchToolStripMenuItem.Text = "Search";
             // 
             // byFileNameToolStripMenuItem1
@@ -540,6 +544,26 @@
             this.byFileExtensionToolStripMenuItem.Text = "By File Extension";
             this.byFileExtensionToolStripMenuItem.Click += new System.EventHandler(this.byFileExtensionToolStripMenuItem_Click);
             // 
+            // byFileSizeToolStripMenuItem
+            // 
+            this.byFileSizeToolStripMenuItem.Name = "byFileSizeToolStripMenuItem";
+            this.byFileSizeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.byFileSizeToolStripMenuItem.Text = "By File Size";
+            this.byFileSizeToolStripMenuItem.Click += new System.EventHandler(this.byFileSizeToolStripMenuItem_Click);
+            // 
+            // mLabelItemsFound
+            // 
+            this.mLabelItemsFound.AutoSize = true;
+            this.mLabelItemsFound.Depth = 0;
+            this.mLabelItemsFound.Font = new System.Drawing.Font("Roboto", 11F);
+            this.mLabelItemsFound.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.mLabelItemsFound.Location = new System.Drawing.Point(8, 29);
+            this.mLabelItemsFound.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mLabelItemsFound.Name = "mLabelItemsFound";
+            this.mLabelItemsFound.Size = new System.Drawing.Size(100, 19);
+            this.mLabelItemsFound.TabIndex = 1;
+            this.mLabelItemsFound.Text = "Items Found :";
+            // 
             // MainWindowUi
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -567,6 +591,7 @@
             this.panelFilesControlsRightM.ResumeLayout(false);
             this.panelFilesControlsLeftM.ResumeLayout(false);
             this.panelFileBOps.ResumeLayout(false);
+            this.panelFileBOps.PerformLayout();
             this.panelFileBSlider.ResumeLayout(false);
             this.panelFileBSlider.PerformLayout();
             this.mcMenuStripTree.ResumeLayout(false);
@@ -623,5 +648,7 @@
         private System.Windows.Forms.ProgressBar progressBarLoading;
         private System.Windows.Forms.Timer timerExtract;
         private System.Windows.Forms.ToolStripMenuItem byFileExtensionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem byFileSizeToolStripMenuItem;
+        private MaterialSkin.Controls.MaterialLabel mLabelItemsFound;
     }
 }

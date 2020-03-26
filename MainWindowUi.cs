@@ -257,6 +257,31 @@ namespace MarbaxViewer
             }
         }
 
+        private void SearchByFileSize(string startPath, float min, float max)
+        {
+            try
+            {
+                if (Directory.Exists(startPath))
+                {
+                    if (Directory.GetFiles(startPath).Count() > 0)
+                        foreach (string file in Directory.GetFiles(startPath))
+                        {
+                            FileInfo fi = new FileInfo(file);
+                            float fSize = fi.Length / 1000;
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && fSize >= min && fSize <= max)
+                                _foundItems.Add(file);
+                        }
+
+                    if (Directory.GetDirectories(startPath).Count() > 0)
+                        foreach (string dir in Directory.GetDirectories(startPath))
+                            SearchByFileSize(dir, min, max);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message); ;
+            }
+        }
 
         // isn't working with large files amount
         /*
@@ -746,6 +771,7 @@ namespace MarbaxViewer
                     SearchByFileName(tvDirBrowser.SelectedNode.Name, searchForm.ToFindText);
                     if (_foundItems.Count > 0)
                     {
+                        mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
                         Cursor.Current = Cursors.Default;
                     }
@@ -769,6 +795,7 @@ namespace MarbaxViewer
                     SearchByFileExtension(tvDirBrowser.SelectedNode.Name, searchForm.ToFindExtension);
                     if (_foundItems.Count > 0)
                     {
+                        mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
                         Cursor.Current = Cursors.Default;
                     }
@@ -776,6 +803,31 @@ namespace MarbaxViewer
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        private void byFileSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (tvDirBrowser.SelectedNode != null)
+            {
+                timerExtract.Stop();
+                _foundItems.Clear();
+                frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Size, tvDirBrowser.SelectedNode.Name);
+                if (searchForm.ShowDialog() == DialogResult.OK)
+                {
+                    progressBarLoading.Visible = true;
+                    Cursor.Current = Cursors.WaitCursor;
+                    SearchByFileSize(tvDirBrowser.SelectedNode.Name, searchForm.ToFindMinSize, searchForm.ToFindMaxSize);
+                    if (_foundItems.Count > 0)
+                    {
+                        mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
+                        UpdateListViewFilesAfterSearchWithTimer();
+                        Cursor.Current = Cursors.Default;
+                    }
+                    else
+                        MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+
         }
     }
 }

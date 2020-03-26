@@ -37,8 +37,14 @@
             this.panelBtns = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.cbExtension = new System.Windows.Forms.ComboBox();
+            this.nUpDownMax = new System.Windows.Forms.NumericUpDown();
+            this.nUpDownMin = new System.Windows.Forms.NumericUpDown();
+            this.mLabelTopSize = new MaterialSkin.Controls.MaterialLabel();
+            this.mLabelBotSize = new MaterialSkin.Controls.MaterialLabel();
             this.panelBtns.SuspendLayout();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDownMax)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDownMin)).BeginInit();
             this.SuspendLayout();
             // 
             // mLabelSearchUnder
@@ -157,11 +163,65 @@
             this.cbExtension.Size = new System.Drawing.Size(300, 24);
             this.cbExtension.TabIndex = 10;
             // 
+            // nUpDownMax
+            // 
+            this.nUpDownMax.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nUpDownMax.Location = new System.Drawing.Point(149, 144);
+            this.nUpDownMax.Name = "nUpDownMax";
+            this.nUpDownMax.Size = new System.Drawing.Size(73, 22);
+            this.nUpDownMax.TabIndex = 11;
+            // 
+            // nUpDownMin
+            // 
+            this.nUpDownMin.Increment = new decimal(new int[] {
+            100,
+            0,
+            0,
+            0});
+            this.nUpDownMin.Location = new System.Drawing.Point(149, 171);
+            this.nUpDownMin.Name = "nUpDownMin";
+            this.nUpDownMin.Size = new System.Drawing.Size(73, 22);
+            this.nUpDownMin.TabIndex = 12;
+            // 
+            // mLabelTopSize
+            // 
+            this.mLabelTopSize.AutoSize = true;
+            this.mLabelTopSize.Depth = 0;
+            this.mLabelTopSize.Font = new System.Drawing.Font("Roboto", 11F);
+            this.mLabelTopSize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.mLabelTopSize.Location = new System.Drawing.Point(145, 119);
+            this.mLabelTopSize.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mLabelTopSize.Name = "mLabelTopSize";
+            this.mLabelTopSize.Size = new System.Drawing.Size(59, 19);
+            this.mLabelTopSize.TabIndex = 13;
+            this.mLabelTopSize.Text = "Max KB";
+            // 
+            // mLabelBotSize
+            // 
+            this.mLabelBotSize.AutoSize = true;
+            this.mLabelBotSize.Depth = 0;
+            this.mLabelBotSize.Font = new System.Drawing.Font("Roboto", 11F);
+            this.mLabelBotSize.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(222)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.mLabelBotSize.Location = new System.Drawing.Point(145, 196);
+            this.mLabelBotSize.MouseState = MaterialSkin.MouseState.HOVER;
+            this.mLabelBotSize.Name = "mLabelBotSize";
+            this.mLabelBotSize.Size = new System.Drawing.Size(56, 19);
+            this.mLabelBotSize.TabIndex = 14;
+            this.mLabelBotSize.Text = "Min KB";
+            // 
             // frmSearchByInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(390, 268);
+            this.Controls.Add(this.mLabelBotSize);
+            this.Controls.Add(this.mLabelTopSize);
+            this.Controls.Add(this.nUpDownMin);
+            this.Controls.Add(this.nUpDownMax);
             this.Controls.Add(this.cbExtension);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelBtns);
@@ -181,6 +241,8 @@
             this.panelBtns.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDownMax)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nUpDownMin)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -197,5 +259,9 @@
         private System.Windows.Forms.Panel panelBtns;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ComboBox cbExtension;
+        private System.Windows.Forms.NumericUpDown nUpDownMax;
+        private System.Windows.Forms.NumericUpDown nUpDownMin;
+        private MaterialSkin.Controls.MaterialLabel mLabelTopSize;
+        private MaterialSkin.Controls.MaterialLabel mLabelBotSize;
     }
 }
