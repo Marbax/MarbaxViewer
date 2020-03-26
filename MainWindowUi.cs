@@ -90,6 +90,8 @@ namespace MarbaxViewer
 
         private void UpdateListViewFiles(string path)
         {
+            progressBarLoading.Visible = false;
+            timerExtract.Stop();
             imgLCurrentDir.Images.Clear();
             lvFileBrowser.Items.Clear();
             try
@@ -121,6 +123,13 @@ namespace MarbaxViewer
             {
                 Console.WriteLine($"Directory check error : {ex.Message}");
             }
+        }
+
+        private void UpdateListViewFilesAfterSearchWithTimer()
+        {
+            imgLCurrentDir.Images.Clear();
+            lvFileBrowser.Items.Clear();
+            timerExtract.Start();
         }
 
         private void SelectAllItemsInListView()
@@ -591,6 +600,32 @@ namespace MarbaxViewer
                 panelFileBOps.Height -= MoveSpeed;
         }
 
+        private void timerExtract_Tick(object sender, EventArgs e)
+        {
+            if (_foundItems.Count > 0)
+            {
+                try
+                {
+                    string item = _foundItems[0];
+                    imgLCurrentDir.Images.Add(item, Image.FromFile(item));
+                    ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
+                    lviItem.ForeColor = _appS.GetFontColor();
+                    lviItem.Font = _appS.Font;
+                    lvFileBrowser.Items.Add(lviItem);
+                    _foundItems.RemoveAt(0);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Add item exception : {ex.Message}");
+                }
+            }
+            else
+            {
+                timerExtract.Stop();
+                progressBarLoading.Visible = false;
+            }
+        }
+
         private void tvDirBrowser_AfterSelect(object sender, TreeViewEventArgs e)
         {
             UpdateNodes(e.Node);
@@ -693,37 +728,5 @@ namespace MarbaxViewer
             }
         }
 
-        private void timerExtract_Tick(object sender, EventArgs e)
-        {
-            if (_foundItems.Count > 0)
-            {
-                try
-                {
-                    string item = _foundItems[0];
-                    imgLCurrentDir.Images.Add(item, Image.FromFile(item));
-                    ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
-                    lviItem.ForeColor = _appS.GetFontColor();
-                    lviItem.Font = _appS.Font;
-                    lvFileBrowser.Items.Add(lviItem);
-                    _foundItems.RemoveAt(0);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Add item exception : {ex.Message}");
-                }
-            }
-            else
-            {
-                timerExtract.Stop();
-                progressBarLoading.Visible = false;
-            }
-        }
-        private void UpdateListViewFilesAfterSearchWithTimer()
-        {
-            imgLCurrentDir.Images.Clear();
-            lvFileBrowser.Items.Clear();
-            timerExtract.Start();
-
-        }
     }
 }

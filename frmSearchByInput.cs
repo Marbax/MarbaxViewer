@@ -65,7 +65,7 @@ namespace MarbaxViewer
             {
                 case Mode.Name:
                     {
-                        if (!ToFindPatter.Contains(" "))
+                        if (!string.IsNullOrEmpty(ToFindPatter) || ToFindPatter.Contains(" "))
                             this.DialogResult = DialogResult.OK;
                         else
                             mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
