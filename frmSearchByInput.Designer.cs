@@ -36,6 +36,7 @@
             this.mLabelSerchFor = new MaterialSkin.Controls.MaterialLabel();
             this.panelBtns = new System.Windows.Forms.Panel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.cbExtension = new System.Windows.Forms.ComboBox();
             this.panelBtns.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -147,11 +148,21 @@
             this.panel1.Size = new System.Drawing.Size(182, 37);
             this.panel1.TabIndex = 9;
             // 
+            // cbExtension
+            // 
+            this.cbExtension.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbExtension.FormattingEnabled = true;
+            this.cbExtension.Location = new System.Drawing.Point(46, 171);
+            this.cbExtension.Name = "cbExtension";
+            this.cbExtension.Size = new System.Drawing.Size(300, 24);
+            this.cbExtension.TabIndex = 10;
+            // 
             // frmSearchByInput
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(390, 268);
+            this.Controls.Add(this.cbExtension);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelBtns);
             this.Controls.Add(this.mLabelSerchFor);
@@ -185,5 +196,6 @@
         private MaterialSkin.Controls.MaterialLabel mLabelSerchFor;
         private System.Windows.Forms.Panel panelBtns;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.ComboBox cbExtension;
     }
 }

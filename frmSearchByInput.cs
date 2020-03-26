@@ -15,13 +15,17 @@ namespace MarbaxViewer
             Tag
         }
         private AppSettings _apps;
-        public string ToFindPatter { get => mslTextFiedFileName.Text.Trim(' '); private set => mslTextFiedFileName.Text = value; }
+        public string ToFindText { get => mslTextFiedFileName.Text.Trim(' '); private set => mslTextFiedFileName.Text = value; }
+
+        public string ToFindExtension { get => cbExtension.SelectedItem.ToString(); }
+
         public frmSearchByInput(ref AppSettings appS, Mode searchMode, string startPath)
         {
             InitializeComponent();
             _apps = appS;
             _apps.AddFormToManage(this);
             _currentMode = searchMode;
+            mslTextFiedFileName.Visible = cbExtension.Visible = false;
             InitMode();
             this.mLabelStartPath.Text = startPath;
         }
@@ -38,17 +42,20 @@ namespace MarbaxViewer
                     break;
                 case Mode.Extension:
                     {
-
+                        this.Text = "Search By File Extensions";
+                        this.cbExtension.Visible = true;
+                        cbExtension.Items.AddRange(_apps.AllowedImageFormats.ToArray());
+                        cbExtension.SelectedIndex = 0;
                     }
                     break;
                 case Mode.Size:
                     {
-
+                        this.Text = "Search By File Size";
                     }
                     break;
                 case Mode.Date:
                     {
-
+                        this.Text = "Search By File Creation Date";
                     }
                     break;
                 case Mode.Tag:
@@ -65,13 +72,19 @@ namespace MarbaxViewer
             {
                 case Mode.Name:
                     {
-                        if (!string.IsNullOrEmpty(ToFindPatter) || ToFindPatter.Contains(" "))
+                        if (!string.IsNullOrEmpty(ToFindText) || ToFindText.Contains(" "))
                             this.DialogResult = DialogResult.OK;
                         else
                             mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
                     }
                     break;
                 case Mode.Extension:
+                    {
+                        if (cbExtension.SelectedIndex != -1)
+                        {
+                            this.DialogResult = DialogResult.OK;
+                        }
+                    }
                     break;
                 case Mode.Size:
                     break;

@@ -75,6 +75,7 @@
             this.byFileNameToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.progressBarLoading = new System.Windows.Forms.ProgressBar();
             this.timerExtract = new System.Windows.Forms.Timer(this.components);
+            this.byFileExtensionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -497,14 +498,15 @@
             this.searchToolStripMenuItem});
             this.mcMenuStripTree.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripTree.Name = "mcMenuStripTree";
-            this.mcMenuStripTree.Size = new System.Drawing.Size(110, 26);
+            this.mcMenuStripTree.Size = new System.Drawing.Size(181, 48);
             // 
             // searchToolStripMenuItem
             // 
             this.searchToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.byFileNameToolStripMenuItem1});
+            this.byFileNameToolStripMenuItem1,
+            this.byFileExtensionToolStripMenuItem});
             this.searchToolStripMenuItem.Name = "searchToolStripMenuItem";
-            this.searchToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
+            this.searchToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.searchToolStripMenuItem.Text = "Search";
             // 
             // byFileNameToolStripMenuItem1
@@ -530,6 +532,13 @@
             // 
             this.timerExtract.Interval = 500;
             this.timerExtract.Tick += new System.EventHandler(this.timerExtract_Tick);
+            // 
+            // byFileExtensionToolStripMenuItem
+            // 
+            this.byFileExtensionToolStripMenuItem.Name = "byFileExtensionToolStripMenuItem";
+            this.byFileExtensionToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.byFileExtensionToolStripMenuItem.Text = "By File Extension";
+            this.byFileExtensionToolStripMenuItem.Click += new System.EventHandler(this.byFileExtensionToolStripMenuItem_Click);
             // 
             // MainWindowUi
             // 
@@ -613,5 +622,6 @@
         private System.Windows.Forms.ToolStripMenuItem byFileNameToolStripMenuItem1;
         private System.Windows.Forms.ProgressBar progressBarLoading;
         private System.Windows.Forms.Timer timerExtract;
+        private System.Windows.Forms.ToolStripMenuItem byFileExtensionToolStripMenuItem;
     }
 }
