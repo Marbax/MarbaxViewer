@@ -29,6 +29,7 @@ namespace MarbaxViewer
         public bool LSlideOpened { get; set; } = false;
         public bool BSlideOpened { get; set; } = false;
 
+        private bool _moveFiles = false;
         public List<string> ImageFormats { get; set; } = null;
         public MainWindowUi(ref AppSettings appS)
         {
@@ -104,20 +105,34 @@ namespace MarbaxViewer
         {
             imgLCurrentDir.Images.Clear();
             lvFileBrowser.Items.Clear();
-            if (AccessIsAllowed(path, FileSystemRights.Modify) && Directory.GetFiles(path).Count() > 0)
+            try
             {
-                foreach (string item in Directory.GetFiles(path))
+                if (Directory.GetFiles(path).Count() > 0)
                 {
-                    if (ImageFormats.Contains(Path.GetExtension(item)))
-                    {
-                        imgLCurrentDir.Images.Add(item, Image.FromFile(item));
-                        ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
-                        lviItem.ForeColor = _appS.GetFontColor();
-                        lviItem.Font = _appS.Font;
-                        lvFileBrowser.Items.Add(lviItem);
-                    }
                     lvFileBrowser.Tag = path;
+                    try
+                    {
+                        foreach (string item in Directory.GetFiles(path))
+                        {
+                            if (ImageFormats.Contains(Path.GetExtension(item)))
+                            {
+                                imgLCurrentDir.Images.Add(item, Image.FromFile(item));
+                                ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
+                                lviItem.ForeColor = _appS.GetFontColor();
+                                lviItem.Font = _appS.Font;
+                                lvFileBrowser.Items.Add(lviItem);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"File check error : {ex.Message}");
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Directory check error : {ex.Message}");
             }
         }
 
@@ -128,29 +143,79 @@ namespace MarbaxViewer
                     lvFileBrowser.Items[i].Selected = true;
         }
 
-        private void CopyFilesFromListView()
+        private void CopyFilesFromListView(bool moveFiles = false)
         {
+            if (moveFiles == true)
+                _moveFiles = true;
+            else
+                _moveFiles = false;
+
             System.Collections.Specialized.StringCollection files = new System.Collections.Specialized.StringCollection();
             foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
                 files.Add(lvItem.ImageKey);
             Clipboard.SetFileDropList(files);
         }
 
-        private void PasteFilesToListView()
+        private void PasteImagesToListView()
         {
-            System.Collections.Specialized.StringCollection files = Clipboard.GetFileDropList();
-            foreach (var file in files)
+            if (Clipboard.ContainsFileDropList())
             {
-                try
+                System.Collections.Specialized.StringCollection files = Clipboard.GetFileDropList();
+                Clipboard.Clear();
+                foreach (var file in files)
                 {
-                    File.Copy(file, $"{lvFileBrowser.Tag as string}{Path.GetFileName(file)}");
+                    if (ImageFormats.Contains(Path.GetExtension(file)))
+                    {
+                        try
+                        {
+                            if (_moveFiles == false)
+                                File.Copy(file, Path.Combine(lvFileBrowser.Tag as string, Path.GetFileName(file)));
+                            if (_moveFiles == true)
+                                File.Move(file, Path.Combine(lvFileBrowser.Tag as string, Path.GetFileName(file)));
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                    }
                 }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                _moveFiles = false;
+                UpdateListViewFiles(lvFileBrowser.Tag as string);
             }
-            UpdateListViewFiles(lvFileBrowser.Tag as string);
+        }
+
+        //TODO
+        private void DeleteFilesFromListView()
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                Clipboard.Clear();
+                List<string> paths = new List<string>();
+                foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
+                    paths.Add(lvItem.ImageKey);
+
+                imgLCurrentDir.Images.Clear();
+                lvFileBrowser.Items.Clear();
+                foreach (string path in paths)
+                {
+                    if (File.Exists(path))
+                    {
+                        try
+                        {
+                            File.Delete(path);
+                        }
+                        catch (IOException e)
+                        {
+                            MessageBox.Show(e.Message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                    }
+                }
+                UpdateListViewFiles(lvFileBrowser.Tag as string);
+            }
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///////////////////////////////////////////////////////////////////__TREE_VIEW_METHODS__////////////////////////////////////////////////////////////////////////////////
@@ -269,18 +334,28 @@ namespace MarbaxViewer
                 subTreesLeft--;
                 try
                 {
-                    foreach (string dirPath in Directory.GetDirectories(node.Name))
+                    if (Directory.GetDirectories(node.Name).Count() > 0)
                     {
-                        TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
-                        dir.Name = dirPath;
-                        dir.NodeFont = _appS.Font;
-                        DefaultNodeUpdate(dir, subTreesLeft);
-                        node.Nodes.Add(dir);
+                        foreach (string dirPath in Directory.GetDirectories(node.Name))
+                        {
+                            try
+                            {
+                                TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
+                                dir.Name = dirPath;
+                                dir.NodeFont = _appS.Font;
+                                DefaultNodeUpdate(dir, subTreesLeft);
+                                node.Nodes.Add(dir);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Inner Directory check exception : {ex.Message}");
+                            }
+                        }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Directory check exception : {ex.Message}");
+                    Console.WriteLine($"Outer Directory check exception : {ex.Message}");
                 }
             }
         }
@@ -299,17 +374,24 @@ namespace MarbaxViewer
                     {
                         if (ImageExistsDeeper(dirPath))
                         {
-                            TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
-                            dir.Name = dirPath;
-                            dir.NodeFont = _appS.Font;
-                            UpdateNodeOnlyImageContainers(dir, subTreesLeft);
-                            node.Nodes.Add(dir);
+                            try
+                            {
+                                TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
+                                dir.Name = dirPath;
+                                dir.NodeFont = _appS.Font;
+                                UpdateNodeOnlyImageContainers(dir, subTreesLeft);
+                                node.Nodes.Add(dir);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine($"Outer Directory check exception : {ex.Message}");
+                            }
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine($"Directory check exception : {ex.Message}");
+                    Console.WriteLine($"Outer Directory check exception : {ex.Message}");
                 }
             }
         }
@@ -318,14 +400,25 @@ namespace MarbaxViewer
         {
             try
             {
-                foreach (string file in Directory.GetFiles(path))
-                    if (ImageFormats.Contains(Path.GetExtension(file)))
-                        return true;
+                if (Directory.GetFiles(path).Count() > 0)
+                {
+                    try
+                    {
+                        foreach (string file in Directory.GetFiles(path))
+                            if (ImageFormats.Contains(Path.GetExtension(file)))
+                                return true;
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"File check exception : {ex.Message}");
+                    }
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"File check exception : {ex.Message}");
+                Console.WriteLine($"Directory check exception : {ex.Message}");
             }
+
             return false;
         }
 
@@ -337,8 +430,27 @@ namespace MarbaxViewer
                 if (ImageExstsInDirectory(path))
                     return true;
                 else
-                    foreach (string dirPath in Directory.GetDirectories(path))
-                        ImageExistsDeeper(dirPath);
+                {
+                    try
+                    {
+                        if (Directory.GetDirectories(path).Count() > 0)
+                        {
+                            foreach (string dirPath in Directory.GetDirectories(path))
+                                try
+                                {
+                                    ImageExistsDeeper(dirPath);
+                                }
+                                catch (Exception ex)
+                                {
+                                    Console.WriteLine($"Directory check exception : {ex.Message}");
+                                }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Directory check exception : {ex.Message}");
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -353,7 +465,6 @@ namespace MarbaxViewer
 
         private void MainWindowUi_Load(object sender, EventArgs e)
         {
-            //UpdateTreeViewCatalogs();
             SimpleUpdateTreeViewCatalogs();
         }
 
@@ -450,7 +561,6 @@ namespace MarbaxViewer
 
         private void tvDirBrowser_AfterSelect(object sender, TreeViewEventArgs e)
         {
-            //UpdateChildeNodes(e.Node, _treeInher);
             UpdateNodes(e.Node);
             UpdateListViewFiles(e.Node.Name);
             mSingleLineFieldPath.Text = e.Node.Name;
@@ -458,7 +568,6 @@ namespace MarbaxViewer
 
         private void tvDirBrowser_AfterExpand(object sender, TreeViewEventArgs e)
         {
-            //UpdateChildeNodes(e.Node, _treeInher);
             UpdateNodes(e.Node);
         }
 
@@ -477,13 +586,11 @@ namespace MarbaxViewer
         private void picBoxUpdateFileBrowser_Click(object sender, EventArgs e)
         {
             if (tvDirBrowser.SelectedNode != null)
-            {
                 UpdateListViewFiles(tvDirBrowser.SelectedNode.Name);
-            }
+            else if (lvFileBrowser.Tag as string != null)
+                UpdateListViewFiles(lvFileBrowser.Tag as string);
             else if (Directory.Exists(mSingleLineFieldPath.Text))
-            {
                 UpdateListViewFiles(mSingleLineFieldPath.Text);
-            }
         }
 
         private void picBUpdateTree_Click(object sender, EventArgs e)
@@ -500,6 +607,21 @@ namespace MarbaxViewer
             }
         }
 
+        private void mSingleLineFieldPath_Click(object sender, EventArgs e)
+        {
+            mSingleLineFieldPath.Text.Trim(' ');
+            try
+            {
+                if (Directory.Exists(mSingleLineFieldPath.Text))
+                {
+                    UpdateListViewFiles(mSingleLineFieldPath.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Wrong path : {ex.Message}");
+            }
+        }
         private void lvFileBrowser_KeyUp(object sender, KeyEventArgs e)
         {
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
@@ -507,9 +629,13 @@ namespace MarbaxViewer
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
                 CopyFilesFromListView();
             if (e.Modifiers == Keys.Control && e.KeyCode == Keys.V)
-                PasteFilesToListView();
-
+                PasteImagesToListView();
+            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.X)
+                CopyFilesFromListView(true);
+            if (e.KeyCode == Keys.Delete)
+                DeleteFilesFromListView();
 
         }
+
     }
 }

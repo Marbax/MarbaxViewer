@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="packages\Costura.Fody.4.1.0\build\Costura.Fody.props" Condition="Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -12,6 +13,8 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,13 +35,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Costura, Version=4.1.0.0, Culture=neutral, PublicKeyToken=9919ef960d84173d, processorArchitecture=MSIL">
+      <HintPath>packages\Costura.Fody.4.1.0\lib\net40\Costura.dll</HintPath>
+    </Reference>
     <Reference Include="MaterialSkin, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>packages\MaterialSkin.0.2.1\lib\MaterialSkin.dll</HintPath>
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>.\MaterialSkin.dll</HintPath>
+      <Private>False</Private>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Design" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -51,42 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSettings.cs" />
-    <Compile Include="Controls\LollipopButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopCard.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopCheckBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopFileInput.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopFlatButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopFolderInPut.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopLabel.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopProgressBar.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopRadioButton.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopSmallCard.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopTextBox.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Controls\LollipopToggle.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="frmFullScreen.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -107,8 +83,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UIManagers\DrawHelper.cs" />
-    <Compile Include="UIManagers\FontManager.cs" />
     <EmbeddedResource Include="frmFullScreen.resx">
       <DependentUpon>frmFullScreen.cs</DependentUpon>
     </EmbeddedResource>
@@ -138,14 +112,13 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="Resources\Roboto-Medium.ttf" />
-    <None Include="Resources\Roboto-Regular.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <None Include="bin\Debug\lib\MaterialSkin.dll" />
     <Content Include="img\Dir.png" />
     <Content Include="img\ImgDark.png" />
     <Content Include="img\ImgLight.png" />
@@ -153,7 +126,18 @@
     <Content Include="img\Update.png" />
     <Content Include="img\UpdateWhite.png" />
     <Content Include="img\Volume.png" />
+    <EmbeddedResource Include="MaterialSkin.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Resources\img_not_found.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\Costura.Fody.4.1.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Costura.Fody.4.1.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('packages\Fody.6.1.1\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\Fody.6.1.1\build\Fody.targets'))" />
+  </Target>
+  <Import Project="packages\Fody.6.1.1\build\Fody.targets" Condition="Exists('packages\Fody.6.1.1\build\Fody.targets')" />
 </Project>

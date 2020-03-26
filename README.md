@@ -3,13 +3,6 @@ Application to browse images
 
 ---
 
-<details><summary> Refernces  </summary><p>
-
-https://github.com/Viki4Tech/MaterialDesign - additional controls added from
-
-</p></details>
-
-<details><summary> Technical Task  </summary><p>
 
 ### Создать приложение «Галерея изображений».
   **Основная задача приложения:**
@@ -24,7 +17,7 @@ https://github.com/Viki4Tech/MaterialDesign - additional controls added from
   - [ ] копирование, удаление, вставка, перенос графических файлов; 
     - [x] копирование
     - [x] вставка
-    - [ ] удаление
+    - [x] удаление
     - [ ] перенос
   - [ ] приложение должно поддерживать механизм Drag-and-Drop; 
   - [ ] присвоение тегов папке с графическими файлам, конкретному файлу; 

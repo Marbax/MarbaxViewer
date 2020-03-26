@@ -44,7 +44,7 @@
             this.panelSlideBar = new System.Windows.Forms.Panel();
             this.panelTree = new System.Windows.Forms.Panel();
             this.tvDirBrowser = new System.Windows.Forms.TreeView();
-            this.imageList = new System.Windows.Forms.ImageList(this.components);
+            this.imageListDIrIco = new System.Windows.Forms.ImageList(this.components);
             this.panelSlideBarControls = new System.Windows.Forms.Panel();
             this.mCheckBoxOnlyImages = new MaterialSkin.Controls.MaterialCheckBox();
             this.picBUpdateTree = new System.Windows.Forms.PictureBox();
@@ -203,7 +203,7 @@
             this.tvDirBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tvDirBrowser.Font = new System.Drawing.Font("Yu Gothic UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tvDirBrowser.ImageIndex = 0;
-            this.tvDirBrowser.ImageList = this.imageList;
+            this.tvDirBrowser.ImageList = this.imageListDIrIco;
             this.tvDirBrowser.Location = new System.Drawing.Point(0, 0);
             this.tvDirBrowser.Name = "tvDirBrowser";
             this.tvDirBrowser.SelectedImageIndex = 0;
@@ -212,13 +212,13 @@
             this.tvDirBrowser.AfterExpand += new System.Windows.Forms.TreeViewEventHandler(this.tvDirBrowser_AfterExpand);
             this.tvDirBrowser.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.tvDirBrowser_AfterSelect);
             // 
-            // imageList
+            // imageListDIrIco
             // 
-            this.imageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList.ImageStream")));
-            this.imageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList.Images.SetKeyName(0, "Volume.png");
-            this.imageList.Images.SetKeyName(1, "Dir.png");
-            this.imageList.Images.SetKeyName(2, "ImgLight.png");
+            this.imageListDIrIco.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageListDIrIco.ImageStream")));
+            this.imageListDIrIco.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageListDIrIco.Images.SetKeyName(0, "Volume.png");
+            this.imageListDIrIco.Images.SetKeyName(1, "Dir.png");
+            this.imageListDIrIco.Images.SetKeyName(2, "ImgLight.png");
             // 
             // panelSlideBarControls
             // 
@@ -401,6 +401,7 @@
             this.mSingleLineFieldPath.TabIndex = 0;
             this.mSingleLineFieldPath.Text = "Path";
             this.mSingleLineFieldPath.UseSystemPasswordChar = false;
+            this.mSingleLineFieldPath.Click += new System.EventHandler(this.mSingleLineFieldPath_Click);
             // 
             // panelFilesControlsRightM
             // 
@@ -541,7 +542,7 @@
         private System.Windows.Forms.Timer timerBotOpen;
         private System.Windows.Forms.Timer timerLeftClose;
         private System.Windows.Forms.Timer timerBotClose;
-        private System.Windows.Forms.ImageList imageList;
+        private System.Windows.Forms.ImageList imageListDIrIco;
         private MaterialSkin.Controls.MaterialSingleLineTextField mSingleLineFieldPath;
         private System.Windows.Forms.Panel panelFolderPath;
         private System.Windows.Forms.Panel panelFilesControlsRightM;
