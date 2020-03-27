@@ -3,41 +3,37 @@ using MaterialSkin.Controls;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MarbaxViewer
 {
+    [Serializable]
     public class AppSettings
     {
+        private AppFont _currentFont = AppFont.Gothic;
+        public AppFont CurrentFont { get => _currentFont; set => _currentFont = value; }
 
-        // Font tmp1 = new Font("Kristen ITC", 10, FontStyle.Regular);
-        // Font tmp2 = new Font("Jokerman", 10, FontStyle.Regular);
-        public Font Font { get; set; } = new Font("Yu Gothic UI", 11, FontStyle.Regular);
+        private ColorSchemes _currentSchema = ColorSchemes.BlueGrey;
+        public ColorSchemes CurrentSchema { get => _currentSchema; set => SetColorScheme(value); }
+
+
+        private Theme _currentTheme = Theme.Dark;
+        public Theme CurrentTheme { get => _currentTheme; set => SetTheme(value); }
+
+        private ArrowStyle _CurrentArrowStyle = ArrowStyle.DartArrow;
+        public ArrowStyle CurrentArrowStyle { get => _CurrentArrowStyle; set => _CurrentArrowStyle = value; }
+
 
         public List<string> AllowedImageFormats;
         public List<string> SearchHistory { get; set; }
-        public MaterialSkinManager SkinManager { get; set; } = MaterialSkinManager.Instance;
 
-        public MaterialSkinManager.Themes FormTheme { get => SkinManager.Theme; set => SkinManager.Theme = value; }
+        [NonSerialized]
+        private MaterialSkinManager _skinManager = MaterialSkinManager.Instance;
+        public MaterialSkinManager SkinManager { get => _skinManager; set => _skinManager = value; }
 
-        public ColorScheme ColorScheme { get => SkinManager.ColorScheme; }
-
-        private ColorSchemes _currentSchema;
-        public ColorSchemes CurrentSchema { get => _currentSchema; set => SetColorScheme(value); }
         public enum ColorSchemes
         {
             Purple = 1,
             BlueGrey
-        }
-
-        private ArrowStyle _arrowStyle = ArrowStyle.DartArrow;
-
-        public ArrowStyle CurrentArrowStyle
-        {
-            get { return _arrowStyle; }
-            set { _arrowStyle = value; }
         }
 
         public enum ArrowStyle
@@ -53,11 +49,23 @@ namespace MarbaxViewer
             Right,
             Down
         }
-
-        public AppSettings(MaterialSkinManager.Themes theme, MaterialForm frm, ColorSchemes scheme)
+        public enum AppFont
         {
-            FormTheme = theme;
-            AddFormToManage(frm);
+            Gothic = 1,
+            Jokerman,
+            Kristen
+        }
+
+        public enum Theme
+        {
+            Dark = 1,
+            Light
+        }
+
+        public AppSettings(MaterialSkinManager.Themes theme = MaterialSkinManager.Themes.DARK, ColorSchemes scheme = ColorSchemes.BlueGrey)
+        {
+            SkinManager = MaterialSkinManager.Instance;
+            SkinManager.Theme = theme;
             SetColorScheme(scheme);
             InitDefaultImageFormats();
             SearchHistory = new List<string>();
@@ -79,6 +87,8 @@ namespace MarbaxViewer
 
         public void AddFormToManage(MaterialForm frm)
         {
+            if (SkinManager == null)
+                SkinManager = MaterialSkinManager.Instance;
             SkinManager.AddFormToManage(frm);
         }
 
@@ -101,6 +111,24 @@ namespace MarbaxViewer
             }
         }
 
+        private void SetTheme(Theme value)
+        {
+            switch (value)
+            {
+                case Theme.Dark:
+                    {
+                        SkinManager.Theme = MaterialSkinManager.Themes.DARK;
+                        _currentTheme = Theme.Dark;
+                    }
+                    break;
+                case Theme.Light:
+                    {
+                        SkinManager.Theme = MaterialSkinManager.Themes.LIGHT;
+                        _currentTheme = Theme.Light;
+                    }
+                    break;
+            }
+        }
         public Color GetMainColor()
         {
             switch (_currentSchema)
@@ -115,11 +143,11 @@ namespace MarbaxViewer
         }
         public Color GetBackgroundColor()
         {
-            switch (FormTheme)
+            switch (_currentTheme)
             {
-                case MaterialSkinManager.Themes.LIGHT:
+                case Theme.Light:
                     return Color.FromArgb(255, 255, 255);
-                case MaterialSkinManager.Themes.DARK:
+                case Theme.Dark:
                     return Color.FromArgb(51, 51, 51);
                 default:
                     return Color.FromArgb(51, 51, 51);
@@ -127,11 +155,11 @@ namespace MarbaxViewer
         }
         public Color GetFontColor()
         {
-            switch (FormTheme)
+            switch (_currentTheme)
             {
-                case MaterialSkinManager.Themes.DARK:
+                case Theme.Dark:
                     return Color.FromArgb(255, 255, 255);
-                case MaterialSkinManager.Themes.LIGHT:
+                case Theme.Light:
                     return Color.FromArgb(51, 51, 51);
                 default:
                     return Color.FromArgb(255, 255, 255);
@@ -139,20 +167,35 @@ namespace MarbaxViewer
         }
         public Image GetUpdateImage()
         {
-            switch (FormTheme)
+            switch (_currentTheme)
             {
-                case MaterialSkinManager.Themes.DARK:
+                case Theme.Dark:
                     return MarbaxViewer.Properties.Resources.UpdateWhite;
-                case MaterialSkinManager.Themes.LIGHT:
+                case Theme.Light:
                     return MarbaxViewer.Properties.Resources.Update;
                 default:
                     return MarbaxViewer.Properties.Resources.Update;
             }
         }
 
+        public Font GetFont()
+        {
+            switch (_currentFont)
+            {
+                case AppFont.Gothic:
+                    return new Font("Yu Gothic UI", 11, FontStyle.Regular);
+                case AppFont.Jokerman:
+                    return new Font("Jokerman", 10, FontStyle.Regular);
+                case AppFont.Kristen:
+                    return new Font("Kristen ITC", 10, FontStyle.Regular);
+                default:
+                    return new Font("Yu Gothic UI", 11, FontStyle.Regular);
+            }
+        }
+
         public string GetArrow(ArrowDirection arrowDirection)
         {
-            switch (_arrowStyle)
+            switch (_CurrentArrowStyle)
             {
                 case ArrowStyle.DartArrow:
                     {

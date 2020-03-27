@@ -50,12 +50,14 @@ namespace MarbaxViewer
 
         private void SetUpItemsVisuals()
         {
+            _appS.CurrentSchema = _appS.CurrentSchema;
+            _appS.CurrentTheme = _appS.CurrentTheme;
             msMenu.ForeColor = Color.White;
 
-            tvDirBrowser.ForeColor = lvFileBrowser.ForeColor = _appS.GetFontColor();
+            tvDirBrowser.ForeColor = lvFileBrowser.ForeColor = mSingleLineFieldPath.ForeColor = _appS.GetFontColor();
 
             panelFilesControlsLeftM.BackColor = panelFilesControlsRightM.BackColor = tvDirBrowser.BackColor =
-                lvFileBrowser.BackColor = panelFileBrowser.BackColor = _appS.GetBackgroundColor();
+                lvFileBrowser.BackColor = panelFileBrowser.BackColor = panelSlideBarControls.BackColor = this.BackColor = _appS.GetBackgroundColor();
 
             panelSlideBar.ForeColor = panelSlideBarControls.ForeColor = msMenu.BackColor = panelSlideBtn.BackColor = panelFileBSlider.BackColor =
                 panelFolderPath.BackColor = panelDirTreeBotM.BackColor =
@@ -64,7 +66,7 @@ namespace MarbaxViewer
             picBUpdateTree.Image = picBoxUpdateFileBrowser.Image = _appS.GetUpdateImage();
 
 
-            tvDirBrowser.Font = lvFileBrowser.Font = mSingleLineFieldPath.Font = mCheckBoxOnlyImages.Font = msMenu.Font = _appS.Font;
+            tvDirBrowser.Font = lvFileBrowser.Font = mSingleLineFieldPath.Font = mCheckBoxOnlyImages.Font = msMenu.Font = _appS.GetFont();
 
         }
 
@@ -108,7 +110,7 @@ namespace MarbaxViewer
                                 imgLCurrentDir.Images.Add(item, Image.FromFile(item));
                                 ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
                                 lviItem.ForeColor = _appS.GetFontColor();
-                                lviItem.Font = _appS.Font;
+                                lviItem.Font = _appS.GetFont();
                                 lvFileBrowser.Items.Add(lviItem);
                             }
                         }
@@ -351,6 +353,7 @@ namespace MarbaxViewer
         ///////////////////////////////////////////////////////////////////__TREE_VIEW_METHODS__////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        //TODO
         private void UpdateTreeViewCatalogs()
         {
             this.tvDirBrowser.Nodes.Clear();
@@ -363,6 +366,7 @@ namespace MarbaxViewer
             }
         }
 
+        //TODO
         private void UpdateChildeNodes(TreeNode node, int subTrees)
         {
             int subTreesLeft = subTrees;
@@ -382,6 +386,7 @@ namespace MarbaxViewer
             }
         }
 
+        //TODO
         static bool AccessIsAllowed(string directoryName, FileSystemRights rights)
         {
             bool AllowingRightsIsPresent = false;
@@ -435,7 +440,7 @@ namespace MarbaxViewer
                 {
                     TreeNode volume = new TreeNode(volumePath.Trim(@"\".ToCharArray()), 0, 0);
                     volume.Name = volumePath;
-                    volume.NodeFont = _appS.Font;
+                    volume.NodeFont = _appS.GetFont();
                     UpdateNodes(volume);
                     tvDirBrowser.Nodes.Add(volume);
                 }
@@ -472,7 +477,7 @@ namespace MarbaxViewer
                             {
                                 TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
                                 dir.Name = dirPath;
-                                dir.NodeFont = _appS.Font;
+                                dir.NodeFont = _appS.GetFont();
                                 DefaultNodeUpdate(dir, subTreesLeft);
                                 node.Nodes.Add(dir);
                             }
@@ -490,6 +495,7 @@ namespace MarbaxViewer
             }
         }
 
+        //TODO
         private void UpdateNodeOnlyImageContainers(TreeNode node, int subTrees)
         {
             node.Nodes.Clear();
@@ -508,7 +514,7 @@ namespace MarbaxViewer
                             {
                                 TreeNode dir = new TreeNode(Path.GetFileName(dirPath), 1, 1);
                                 dir.Name = dirPath;
-                                dir.NodeFont = _appS.Font;
+                                dir.NodeFont = _appS.GetFont();
                                 UpdateNodeOnlyImageContainers(dir, subTreesLeft);
                                 node.Nodes.Add(dir);
                             }
@@ -621,15 +627,14 @@ namespace MarbaxViewer
 
         private void darkToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _appS.FormTheme = MaterialSkinManager.Themes.DARK;
+            _appS.CurrentTheme = AppSettings.Theme.Dark;
             SetUpItemsVisuals();
         }
 
         private void lightToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _appS.FormTheme = MaterialSkinManager.Themes.LIGHT;
+            _appS.CurrentTheme = AppSettings.Theme.Light;
             SetUpItemsVisuals();
-
         }
 
         private void mfButtonFileSlider_Click(object sender, EventArgs e)
@@ -699,7 +704,7 @@ namespace MarbaxViewer
                     imgLCurrentDir.Images.Add(item, Image.FromFile(item));
                     ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
                     lviItem.ForeColor = _appS.GetFontColor();
-                    lviItem.Font = _appS.Font;
+                    lviItem.Font = _appS.GetFont();
                     lvFileBrowser.Items.Add(lviItem);
                 }
                 catch (Exception ex)
@@ -800,6 +805,7 @@ namespace MarbaxViewer
         {
             if (tvDirBrowser.SelectedNode != null)
             {
+                progressBarLoading.Visible = false;
                 timerExtract.Stop();
                 _foundItems.Clear();
                 frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Name, tvDirBrowser.SelectedNode.Name);
@@ -824,6 +830,7 @@ namespace MarbaxViewer
         {
             if (tvDirBrowser.SelectedNode != null)
             {
+                progressBarLoading.Visible = false;
                 timerExtract.Stop();
                 _foundItems.Clear();
                 frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Extension, tvDirBrowser.SelectedNode.Name);
@@ -848,6 +855,7 @@ namespace MarbaxViewer
         {
             if (tvDirBrowser.SelectedNode != null)
             {
+                progressBarLoading.Visible = false;
                 timerExtract.Stop();
                 _foundItems.Clear();
                 frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Size, tvDirBrowser.SelectedNode.Name);
@@ -874,6 +882,7 @@ namespace MarbaxViewer
             {
                 timerExtract.Stop();
                 _foundItems.Clear();
+                progressBarLoading.Visible = false;
                 frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Date, tvDirBrowser.SelectedNode.Name);
                 if (searchForm.ShowDialog() == DialogResult.OK)
                 {

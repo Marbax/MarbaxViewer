@@ -1,27 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialSkin.Controls;
+using System;
 using System.Windows.Forms;
-using MaterialSkin;
-using MaterialSkin.Controls;
 
 namespace MarbaxViewer
 {
     public partial class frmMain : MaterialForm
     {
-        AppSettings _appS;
-
+        DataManager _dm;
+        private AppSettings _appS;
         MainWindowUi _mwUI;
         public frmMain()
         {
             InitializeComponent();
-            _appS = new AppSettings(MaterialSkinManager.Themes.DARK, this, AppSettings.ColorSchemes.BlueGrey);
-            _mwUI = new MainWindowUi(ref _appS);
+            _dm = new DataManager(); ;
+            _dm.LoadData();
+            _dm.AppSettings.AddFormToManage(this);
+            _appS = _dm.AppSettings;
+            _mwUI = new MainWindowUi(ref _dm.AppSettings);
             SetVisuals();
         }
 
@@ -65,6 +60,11 @@ namespace MarbaxViewer
             {
                 Console.WriteLine($"Updating history exception : {ex.Message}");
             }
+        }
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            _dm.SaveData();
         }
     }
 }
