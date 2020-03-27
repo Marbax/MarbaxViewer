@@ -1,5 +1,5 @@
 # MarbaxViewer
-Application to browse images  
+Application to browse images  ***Morozov M.E.***
 
 <dev ><img src="gitAnim/rainbow.gif" width="100%" height="25" margin = "200" align="center">
 </dev>
