@@ -67,5 +67,10 @@ namespace MarbaxViewer
         {
             _dm.SaveData();
         }
+
+        private void mRaisedButtonPurge_Click(object sender, EventArgs e)
+        {
+            _appS.SearchHistory.Clear();
+        }
     }
 }
