@@ -76,6 +76,7 @@
             this.bmpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.gifToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.iconToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.imgLCurrentDir = new System.Windows.Forms.ImageList(this.components);
             this.panelFileBControls = new System.Windows.Forms.Panel();
             this.picBoxUpdateFileBrowser = new System.Windows.Forms.PictureBox();
@@ -93,7 +94,6 @@
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
             this.timerExtract = new System.Windows.Forms.Timer(this.components);
-            this.tiffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -417,6 +417,7 @@
             // 
             // panelFileBrowser
             // 
+            this.panelFileBrowser.AllowDrop = true;
             this.panelFileBrowser.Controls.Add(this.panelFileList);
             this.panelFileBrowser.Controls.Add(this.panelFileBControls);
             this.panelFileBrowser.Controls.Add(this.panelFileBOps);
@@ -428,6 +429,7 @@
             // 
             // panelFileList
             // 
+            this.panelFileList.AllowDrop = true;
             this.panelFileList.Controls.Add(this.lvFileBrowser);
             this.panelFileList.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panelFileList.Location = new System.Drawing.Point(0, 59);
@@ -449,8 +451,11 @@
             this.lvFileBrowser.Size = new System.Drawing.Size(563, 241);
             this.lvFileBrowser.TabIndex = 0;
             this.lvFileBrowser.UseCompatibleStateImageBehavior = false;
+            this.lvFileBrowser.ItemDrag += new System.Windows.Forms.ItemDragEventHandler(this.lvFileBrowser_ItemDrag);
+            this.lvFileBrowser.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvFileBrowser_DragDrop);
+            this.lvFileBrowser.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvFileBrowser_DragEnter);
             this.lvFileBrowser.DoubleClick += new System.EventHandler(this.lvFileBrowser_DoubleClick);
-            this.lvFileBrowser.KeyUp += new System.Windows.Forms.KeyEventHandler(this.lvFileBrowser_KeyUp);
+            this.lvFileBrowser.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lvFileBrowser_MouseDown);
             // 
             // mcMenuStripList
             // 
@@ -461,7 +466,7 @@
             this.convertToToolStripMenuItem});
             this.mcMenuStripList.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripList.Name = "mcMenuStripList";
-            this.mcMenuStripList.Size = new System.Drawing.Size(181, 70);
+            this.mcMenuStripList.Size = new System.Drawing.Size(132, 48);
             // 
             // tagToolStripMenuItem1
             // 
@@ -469,7 +474,7 @@
             this.addToolStripMenuItem1,
             this.editToolStripMenuItem1});
             this.tagToolStripMenuItem1.Name = "tagToolStripMenuItem1";
-            this.tagToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.tagToolStripMenuItem1.Size = new System.Drawing.Size(131, 22);
             this.tagToolStripMenuItem1.Text = "Tag";
             // 
             // addToolStripMenuItem1
@@ -496,43 +501,50 @@
             this.iconToolStripMenuItem,
             this.tiffToolStripMenuItem});
             this.convertToToolStripMenuItem.Name = "convertToToolStripMenuItem";
-            this.convertToToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.convertToToolStripMenuItem.Size = new System.Drawing.Size(131, 22);
             this.convertToToolStripMenuItem.Text = "Convert To";
             // 
             // pngToolStripMenuItem
             // 
             this.pngToolStripMenuItem.Name = "pngToolStripMenuItem";
-            this.pngToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pngToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.pngToolStripMenuItem.Text = "png";
             this.pngToolStripMenuItem.Click += new System.EventHandler(this.pngToolStripMenuItem_Click);
             // 
             // jpegToolStripMenuItem
             // 
             this.jpegToolStripMenuItem.Name = "jpegToolStripMenuItem";
-            this.jpegToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.jpegToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.jpegToolStripMenuItem.Text = "jpeg";
             this.jpegToolStripMenuItem.Click += new System.EventHandler(this.jpegToolStripMenuItem_Click);
             // 
             // bmpToolStripMenuItem
             // 
             this.bmpToolStripMenuItem.Name = "bmpToolStripMenuItem";
-            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.bmpToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.bmpToolStripMenuItem.Text = "bmp";
             this.bmpToolStripMenuItem.Click += new System.EventHandler(this.bmpToolStripMenuItem_Click);
             // 
             // gifToolStripMenuItem
             // 
             this.gifToolStripMenuItem.Name = "gifToolStripMenuItem";
-            this.gifToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.gifToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.gifToolStripMenuItem.Text = "Gif";
             this.gifToolStripMenuItem.Click += new System.EventHandler(this.gifToolStripMenuItem_Click);
             // 
             // iconToolStripMenuItem
             // 
             this.iconToolStripMenuItem.Name = "iconToolStripMenuItem";
-            this.iconToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.iconToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
             this.iconToolStripMenuItem.Text = "icon";
             this.iconToolStripMenuItem.Click += new System.EventHandler(this.iconToolStripMenuItem_Click);
+            // 
+            // tiffToolStripMenuItem
+            // 
+            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
+            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(99, 22);
+            this.tiffToolStripMenuItem.Text = "tiff";
+            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.tiffToolStripMenuItem_Click);
             // 
             // imgLCurrentDir
             // 
@@ -606,6 +618,7 @@
             this.mSingleLineFieldPath.Text = "Path";
             this.mSingleLineFieldPath.UseSystemPasswordChar = false;
             this.mSingleLineFieldPath.Click += new System.EventHandler(this.mSingleLineFieldPath_Click);
+            this.mSingleLineFieldPath.KeyUp += new System.Windows.Forms.KeyEventHandler(this.mSingleLineFieldPath_KeyUp);
             // 
             // panelFilesControlsRightM
             // 
@@ -704,15 +717,9 @@
             this.timerExtract.Interval = 500;
             this.timerExtract.Tick += new System.EventHandler(this.timerExtract_Tick);
             // 
-            // tiffToolStripMenuItem
-            // 
-            this.tiffToolStripMenuItem.Name = "tiffToolStripMenuItem";
-            this.tiffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.tiffToolStripMenuItem.Text = "tiff";
-            this.tiffToolStripMenuItem.Click += new System.EventHandler(this.tiffToolStripMenuItem_Click);
-            // 
             // MainWindowUi
             // 
+            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panelFileBrowser);

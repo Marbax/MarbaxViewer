@@ -106,7 +106,7 @@ namespace MarbaxViewer
                     {
                         foreach (string item in Directory.GetFiles(path))
                         {
-                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(item)))
+                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(item).ToLower()))
                             {
                                 imgLCurrentDir.Images.Add(item, Image.FromFile(item));
                                 ListViewItem lviItem = new ListViewItem(Path.GetFileName(item), item);
@@ -224,7 +224,7 @@ namespace MarbaxViewer
                 {
                     if (Directory.GetFiles(startPath).Count() > 0)
                         foreach (string file in Directory.GetFiles(startPath))
-                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file)) && Path.GetFileNameWithoutExtension(file).Contains(fileName))
+                            if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file).ToLower()) && Path.GetFileNameWithoutExtension(file).Contains(fileName))
                                 _foundItems.Add(file);
 
                     if (Directory.GetDirectories(startPath).Count() > 0)
@@ -246,7 +246,7 @@ namespace MarbaxViewer
                 {
                     if (Directory.GetFiles(startPath).Count() > 0)
                         foreach (string file in Directory.GetFiles(startPath))
-                            if (Path.GetExtension(file) == fileExtension)
+                            if (Path.GetExtension(file).ToLower() == fileExtension.ToLower())
                                 _foundItems.Add(file);
 
                     if (Directory.GetDirectories(startPath).Count() > 0)
@@ -271,7 +271,7 @@ namespace MarbaxViewer
                         {
                             FileInfo fi = new FileInfo(file);
                             float fSize = fi.Length / 1000;
-                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && fSize >= min && fSize <= max)
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension.ToLower()) && fSize >= min && fSize <= max)
                                 _foundItems.Add(file);
                         }
 
@@ -296,7 +296,7 @@ namespace MarbaxViewer
                         foreach (string file in Directory.GetFiles(startPath))
                         {
                             FileInfo fi = new FileInfo(file);
-                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && fi.CreationTime >= min && fi.CreationTime <= max)
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension.ToLower()) && fi.CreationTime >= min && fi.CreationTime <= max)
                                 _foundItems.Add(file);
                         }
 
@@ -321,7 +321,7 @@ namespace MarbaxViewer
                         foreach (string file in Directory.GetFiles(startPath))
                         {
                             FileInfo fi = new FileInfo(file);
-                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && _appS.Tags.Exists(item => item.Key == fi.FullName && item.Value.Contains(fTag)))
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension.ToLower()) && _appS.Tags.Exists(item => item.Key == fi.FullName && item.Value.Contains(fTag)))
                                 _foundItems.Add(file);
                         }
 
@@ -889,16 +889,6 @@ namespace MarbaxViewer
         }
         private void lvFileBrowser_KeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.A)
-                SelectAllItemsInListView();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.C)
-                CopyFilesFromListView();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.V)
-                PasteImagesToListView();
-            if (e.Modifiers == Keys.Control && e.KeyCode == Keys.X)
-                CopyFilesFromListView(true);
-            if (e.KeyCode == Keys.Delete)
-                DeleteFilesFromListView();
 
         }
 
@@ -1126,5 +1116,96 @@ namespace MarbaxViewer
             }
 
         }
+
+        private void mSingleLineFieldPath_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                if (Directory.Exists(mSingleLineFieldPath.Text.Trim(' ')))
+                    UpdateListViewFiles(mSingleLineFieldPath.Text.Trim(' '));
+        }
+
+        private void lvFileBrowser_ItemDrag(object sender, ItemDragEventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                DoDragDrop(GetSelectedFilesPathesLV(), DragDropEffects.Move);
+
+                //lvFileBrowser.DoDragDrop(lvFileBrowser.SelectedItems, DragDropEffects.Move);
+            }
+        }
+
+        private void lvFileBrowser_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Left)
+            {
+                System.Collections.Specialized.StringCollection filePath = new System.Collections.Specialized.StringCollection();
+                if (lvFileBrowser.SelectedItems.Count > 0)
+                {
+                    try
+                    {
+                        filePath.AddRange(GetSelectedFilesPathesLV().ToArray());
+                        DataObject dataObject = new DataObject();
+                        dataObject.SetFileDropList(filePath);
+                        lvFileBrowser.DoDragDrop(dataObject, DragDropEffects.Copy);
+                        DoDragDrop(lvFileBrowser.SelectedItems, DragDropEffects.Copy);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Drag mouse down pack exception : {ex.Message}");
+                    }
+                }
+            }
+        }
+
+        private void lvFileBrowser_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop, false))
+            {
+                string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+                bool imgExist = false;
+                if (paths != null && paths.Count() > 0)
+                {
+                    foreach (string path in paths)
+                    {
+                        if (imgExist)
+                            break;
+                        if (_appS.AllowedImageFormats.Contains(Path.GetExtension(path).ToLower()))
+                            imgExist = true;
+                    }
+                    if (imgExist)
+                        e.Effect = DragDropEffects.Move;
+                }
+            }
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void lvFileBrowser_DragDrop(object sender, DragEventArgs e)
+        {
+            string[] paths = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (paths != null && paths.Count() > 0)
+            {
+                foreach (string file in paths)
+                {
+                    if (_appS.AllowedImageFormats.Contains(Path.GetExtension(file).ToLower()))
+                    {
+                        try
+                        {
+                            FileInfo fi = new FileInfo(file);
+                            string newPath = $"{Path.GetDirectoryName(lvFileBrowser.Tag as string)}/{fi.Name}";
+                            fi.MoveTo(newPath);
+                            imgLCurrentDir.Images.Add(newPath, Image.FromFile(newPath));
+                            lvFileBrowser.Items.Add(Path.GetFileName(newPath), newPath);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Drag and drop exception : {ex.Message}");
+                        }
+                    }
+                }
+            }
+
+        }
+
     }
 }

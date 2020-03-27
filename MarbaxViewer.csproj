@@ -133,6 +133,7 @@
     <Content Include="img\ImgDark.png" />
     <Content Include="img\ImgLight.png" />
     <Content Include="img\img_not_found.png" />
+    <Content Include="img\main.ico" />
     <Content Include="img\Update.png" />
     <Content Include="img\UpdateWhite.png" />
     <Content Include="img\Volume.png" />
