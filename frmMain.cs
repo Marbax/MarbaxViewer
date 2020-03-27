@@ -22,8 +22,15 @@ namespace MarbaxViewer
             InitializeComponent();
             _appS = new AppSettings(MaterialSkinManager.Themes.DARK, this, AppSettings.ColorSchemes.BlueGrey);
             _mwUI = new MainWindowUi(ref _appS);
+            SetVisuals();
         }
 
+        private void SetVisuals()
+        {
+            rTextBoxHistory.BackColor = _appS.GetBackgroundColor();
+            rTextBoxHistory.ForeColor = _appS.GetFontColor();
+            //mDividerTop.BackColor = _appS.GetMainColor();
+        }
         private void frmMain_Load(object sender, EventArgs e)
         {
             _mwUI.Dock = DockStyle.Fill;
@@ -44,6 +51,20 @@ namespace MarbaxViewer
             panelMain.Width = this.Width - margin;
             panelMain.Top = topMargin;
             panelMain.Height = this.Height - topMargin - margin;
+        }
+
+        private void mRaisedButtonUpdateHistory_Click(object sender, EventArgs e)
+        {
+            SetVisuals();
+            try
+            {
+                rTextBoxHistory.Clear();
+                _appS.SearchHistory.ForEach(h => rTextBoxHistory.Text += $"[{h}]\n");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Updating history exception : {ex.Message}");
+            }
         }
     }
 }
