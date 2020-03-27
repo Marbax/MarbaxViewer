@@ -310,12 +310,25 @@ namespace MarbaxViewer
             }
         }
 
-        //TODO
         private void SearchByFileTag(string startPath, string fTag)
         {
             try
             {
-                //TODO
+                if (Directory.Exists(startPath))
+                {
+                    if (Directory.GetFiles(startPath).Count() > 0)
+                        foreach (string file in Directory.GetFiles(startPath))
+                        {
+                            FileInfo fi = new FileInfo(file);
+                            if (_appS.AllowedImageFormats.Contains(fi.Extension) && _appS.Tags.Exists(item => item.Key == fi.FullName && item.Value.Contains(fTag)))
+                                _foundItems.Add(file);
+                        }
+
+                    if (Directory.GetDirectories(startPath).Count() > 0)
+                        foreach (string dir in Directory.GetDirectories(startPath))
+                            SearchByFileTag(dir, fTag);
+                }
+
             }
             catch (Exception ex)
             {
@@ -343,6 +356,22 @@ namespace MarbaxViewer
                         _appS.Tags.Add(new KeyValuePair<string, string>(item, newTags));
                 }
             }
+        }
+
+        private void EditTag(string fPath)
+        {
+            if (_appS.Tags.Exists(t => t.Key == fPath))
+            {
+                var tag = _appS.Tags.Find(i => i.Key == fPath);
+                frmSearchByInput frm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.EditTag, fPath, tag.Value);
+                if (frm.ShowDialog() == DialogResult.OK)
+                {
+                    _appS.Tags.Add(new KeyValuePair<string, string>(tag.Key, frm.ToFindText));
+                    _appS.Tags.Remove(tag);
+                }
+            }
+            else
+                MessageBox.Show($"{fPath} doesn't have Tags", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         // isn't working with large files amount
@@ -739,8 +768,8 @@ namespace MarbaxViewer
             }
             else
             {
-                timerExtract.Stop();
                 progressBarLoading.Visible = false;
+                timerExtract.Stop();
             }
         }
 
@@ -839,10 +868,13 @@ namespace MarbaxViewer
                     {
                         mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
-                        Cursor.Current = Cursors.Default;
                     }
                     else
+                    {
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        progressBarLoading.Visible = false;
+                    }
+                    Cursor.Current = Cursors.Default;
                 }
             }
         }
@@ -864,10 +896,13 @@ namespace MarbaxViewer
                     {
                         mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
-                        Cursor.Current = Cursors.Default;
                     }
                     else
+                    {
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        progressBarLoading.Visible = false;
+                    }
+                    Cursor.Current = Cursors.Default;
                 }
             }
         }
@@ -889,10 +924,13 @@ namespace MarbaxViewer
                     {
                         mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
-                        Cursor.Current = Cursors.Default;
                     }
                     else
+                    {
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        progressBarLoading.Visible = false;
+                    }
+                    Cursor.Current = Cursors.Default;
                 }
             }
         }
@@ -914,25 +952,42 @@ namespace MarbaxViewer
                     {
                         mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
                         UpdateListViewFilesAfterSearchWithTimer();
-                        Cursor.Current = Cursors.Default;
                     }
                     else
+                    {
                         MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        progressBarLoading.Visible = false;
+                    }
+                    Cursor.Current = Cursors.Default;
                 }
             }
         }
 
-        //TODO
         private void byFileTagToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (tvDirBrowser.SelectedNode != null)
             {
                 timerExtract.Stop();
                 _foundItems.Clear();
+                progressBarLoading.Visible = false;
                 frmSearchByInput searchForm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.Tag, tvDirBrowser.SelectedNode.Name);
                 if (searchForm.ShowDialog() == DialogResult.OK)
                 {
-                    //TODO
+                    progressBarLoading.Visible = true;
+                    Cursor.Current = Cursors.WaitCursor;
+                    SearchByFileTag(tvDirBrowser.SelectedNode.Name, searchForm.ToFindText);
+                    if (_foundItems.Count > 0)
+                    {
+                        mLabelItemsFound.Text = $"Items Found : {_foundItems.Count}";
+                        UpdateListViewFilesAfterSearchWithTimer();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nothing found but we tried", "Such a pity", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        progressBarLoading.Visible = false;
+                    }
+                    Cursor.Current = Cursors.Default;
+
                 }
             }
         }
@@ -956,6 +1011,18 @@ namespace MarbaxViewer
                 AddTag(lvFileBrowser.Tag as string);
         }
 
+        private void editToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+                EditTag(lvFileBrowser.SelectedItems[0].ImageKey);
+            else
+                EditTag(lvFileBrowser.Tag as string);
+        }
+
+        private void editToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EditTag(tvDirBrowser.SelectedNode.Name);
+        }
 
     }
 }

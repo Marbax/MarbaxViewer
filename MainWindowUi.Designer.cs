@@ -241,7 +241,7 @@
             this.tagToolStripMenuItem});
             this.mcMenuStripTree.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripTree.Name = "mcMenuStripTree";
-            this.mcMenuStripTree.Size = new System.Drawing.Size(110, 48);
+            this.mcMenuStripTree.Size = new System.Drawing.Size(181, 70);
             // 
             // searchToolStripMenuItem
             // 
@@ -613,6 +613,7 @@
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem.Text = "Edit";
+            this.editToolStripMenuItem.Click += new System.EventHandler(this.editToolStripMenuItem_Click);
             // 
             // mcMenuStripList
             // 
@@ -622,7 +623,7 @@
             this.tagToolStripMenuItem1});
             this.mcMenuStripList.MouseState = MaterialSkin.MouseState.HOVER;
             this.mcMenuStripList.Name = "mcMenuStripList";
-            this.mcMenuStripList.Size = new System.Drawing.Size(181, 48);
+            this.mcMenuStripList.Size = new System.Drawing.Size(93, 26);
             // 
             // tagToolStripMenuItem1
             // 
@@ -645,6 +646,7 @@
             this.editToolStripMenuItem1.Name = "editToolStripMenuItem1";
             this.editToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.editToolStripMenuItem1.Text = "Edit";
+            this.editToolStripMenuItem1.Click += new System.EventHandler(this.editToolStripMenuItem1_Click);
             // 
             // MainWindowUi
             // 
