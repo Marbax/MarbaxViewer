@@ -44,7 +44,9 @@ Application to browse images
      - [x] Dart Arrow
      - [x] Quadruple Arrow
   - [x] конвертация файла в другой графический формат; 
-  - [ ] приложение должно поддерживать механизм Drag-and-Drop; 
+  - [x] приложение должно поддерживать механизм Drag-and-Drop; 
+    - [x] наружу
+    - [x] внутрь
 
 </p></details>
 
