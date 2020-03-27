@@ -1,7 +1,11 @@
 # MarbaxViewer
 Application to browse images  
 
----
+<dev ><img src="gitAnim/rainbow.gif" width="100%" height="25" margin = "200" align="center">
+</dev>
+
+<img src="https://octodex.github.com/images/daftpunktocat-thomas.gif" width="120" align="right">
+
 
 <details><summary> Technical Task  </summary><p>
 
