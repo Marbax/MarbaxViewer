@@ -1145,6 +1145,7 @@ namespace MarbaxViewer
                     {
                         filePath.AddRange(GetSelectedFilesPathesLV().ToArray());
                         DataObject dataObject = new DataObject();
+
                         dataObject.SetFileDropList(filePath);
                         lvFileBrowser.DoDragDrop(dataObject, DragDropEffects.Copy);
                         DoDragDrop(lvFileBrowser.SelectedItems, DragDropEffects.Copy);
@@ -1207,5 +1208,13 @@ namespace MarbaxViewer
 
         }
 
+        private void sourceLinkToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (System.Diagnostics.Process proc = new System.Diagnostics.Process())
+            {
+                proc.StartInfo.FileName = "https://github.com/Marbax/MarbaxViewer";
+                proc.Start();
+            }
+        }
     }
 }

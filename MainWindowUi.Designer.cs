@@ -94,6 +94,7 @@
             this.timerBotOpen = new System.Windows.Forms.Timer(this.components);
             this.timerBotClose = new System.Windows.Forms.Timer(this.components);
             this.timerExtract = new System.Windows.Forms.Timer(this.components);
+            this.sourceLinkToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMenu.SuspendLayout();
             this.panelSlideBar.SuspendLayout();
             this.panelTree.SuspendLayout();
@@ -129,7 +130,8 @@
             this.testToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.colorToolStripMenuItem,
             this.themeToolStripMenuItem,
-            this.arrowStyleToolStripMenuItem});
+            this.arrowStyleToolStripMenuItem,
+            this.sourceLinkToolStripMenuItem});
             this.testToolStripMenuItem.Name = "testToolStripMenuItem";
             this.testToolStripMenuItem.Size = new System.Drawing.Size(80, 20);
             this.testToolStripMenuItem.Text = "&Preferences";
@@ -140,7 +142,7 @@
             this.purpleToolStripMenuItem,
             this.blueGreyToolStripMenuItem});
             this.colorToolStripMenuItem.Name = "colorToolStripMenuItem";
-            this.colorToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.colorToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.colorToolStripMenuItem.Text = "Color";
             // 
             // purpleToolStripMenuItem
@@ -163,7 +165,7 @@
             this.darkToolStripMenuItem,
             this.lightToolStripMenuItem});
             this.themeToolStripMenuItem.Name = "themeToolStripMenuItem";
-            this.themeToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.themeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.themeToolStripMenuItem.Text = "Theme";
             // 
             // darkToolStripMenuItem
@@ -186,7 +188,7 @@
             this.dartArrowToolStripMenuItem,
             this.quadrupleArrowToolStripMenuItem});
             this.arrowStyleToolStripMenuItem.Name = "arrowStyleToolStripMenuItem";
-            this.arrowStyleToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.arrowStyleToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.arrowStyleToolStripMenuItem.Text = "Arrow Style";
             // 
             // dartArrowToolStripMenuItem
@@ -717,6 +719,13 @@
             this.timerExtract.Interval = 500;
             this.timerExtract.Tick += new System.EventHandler(this.timerExtract_Tick);
             // 
+            // sourceLinkToolStripMenuItem
+            // 
+            this.sourceLinkToolStripMenuItem.Name = "sourceLinkToolStripMenuItem";
+            this.sourceLinkToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.sourceLinkToolStripMenuItem.Text = "&Source Link";
+            this.sourceLinkToolStripMenuItem.Click += new System.EventHandler(this.sourceLinkToolStripMenuItem_Click);
+            // 
             // MainWindowUi
             // 
             this.AllowDrop = true;
@@ -821,5 +830,6 @@
         private System.Windows.Forms.ToolStripMenuItem gifToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem iconToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tiffToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sourceLinkToolStripMenuItem;
     }
 }
