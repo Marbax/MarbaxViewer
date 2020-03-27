@@ -25,6 +25,7 @@ namespace MarbaxViewer
 
         public List<string> AllowedImageFormats;
         public List<string> SearchHistory { get; set; }
+        public List<KeyValuePair<string, string>> Tags;
 
         [NonSerialized]
         private MaterialSkinManager _skinManager = MaterialSkinManager.Instance;
@@ -69,6 +70,7 @@ namespace MarbaxViewer
             SetColorScheme(scheme);
             InitDefaultImageFormats();
             SearchHistory = new List<string>();
+            Tags = new List<KeyValuePair<string, string>>();
         }
         public void InitDefaultImageFormats()
         {

@@ -12,9 +12,13 @@ namespace MarbaxViewer
             Extension,
             Size,
             Date,
-            Tag
+            Tag,
+            AddTag,
+            EditTag
         }
         private AppSettings _apps;
+        private string _existTags;
+
         public string ToFindText { get => mslTextFiedFileName.Text.Trim(' '); private set => mslTextFiedFileName.Text = value; }
 
         public string ToFindExtension { get => cbExtension.SelectedItem.ToString(); }
@@ -24,7 +28,7 @@ namespace MarbaxViewer
 
         public DateTime ToFindMinDate { get => dateTimePBot.Value; }
         public DateTime ToFindMaxDate { get => dateTimePTop.Value; }
-        public frmSearchByInput(ref AppSettings appS, Mode searchMode, string startPath)
+        public frmSearchByInput(ref AppSettings appS, Mode searchMode, string startPath, string existTags = default)
         {
             InitializeComponent();
             _apps = appS;
@@ -32,6 +36,7 @@ namespace MarbaxViewer
             _currentMode = searchMode;
             mslTextFiedFileName.Visible = cbExtension.Visible = mLabelTopSize.Visible = mLabelBotSize.Visible = nUpDownMax.Visible = nUpDownMin.Visible =
                mLabelMinDate.Visible = mLabelMaxDate.Visible = dateTimePBot.Visible = dateTimePTop.Visible = false;
+            _existTags = existTags;
             InitMode();
             this.mLabelStartPath.Text = startPath;
         }
@@ -71,6 +76,21 @@ namespace MarbaxViewer
                     {
                         this.Text = "Search By Tag";
                         this.mslTextFiedFileName.Visible = true;
+                    }
+                    break;
+                case Mode.AddTag:
+                    {
+                        mLabelSearchUnder.Visible = mLabelStartPath.Visible = false;
+                        mLabelSerchFor.Text = this.Text = "Add Tags";
+                        mslTextFiedFileName.Visible = true;
+                    }
+                    break;
+                case Mode.EditTag:
+                    {
+                        mLabelSearchUnder.Visible = mLabelStartPath.Visible = false;
+                        mLabelSerchFor.Text = this.Text = "Edit Tags";
+                        mslTextFiedFileName.Visible = true;
+                        mslTextFiedFileName.Text = _existTags;
                     }
                     break;
             }
@@ -131,7 +151,28 @@ namespace MarbaxViewer
                         }
                         else
                             mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
-
+                    }
+                    break;
+                case Mode.AddTag:
+                    {
+                        if (!string.IsNullOrEmpty(ToFindText))
+                        {
+                            _apps.SearchHistory.Add($"{this.Text} \"{ToFindText}\" for {mLabelStartPath.Text} at {DateTime.Now}");
+                            this.DialogResult = DialogResult.OK;
+                        }
+                        else
+                            mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
+                    }
+                    break;
+                case Mode.EditTag:
+                    {
+                        if (!string.IsNullOrEmpty(ToFindText))
+                        {
+                            _apps.SearchHistory.Add($"{this.Text} cnahged from {_existTags} to \"{ToFindText}\" for {mLabelStartPath.Text} at {DateTime.Now}");
+                            this.DialogResult = DialogResult.OK;
+                        }
+                        else
+                            mslTextFiedFileName.BackColor = System.Drawing.Color.OrangeRed;
                     }
                     break;
             }

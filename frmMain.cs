@@ -24,6 +24,7 @@ namespace MarbaxViewer
         {
             rTextBoxHistory.BackColor = _appS.GetBackgroundColor();
             rTextBoxHistory.ForeColor = _appS.GetFontColor();
+            rTextBoxHistory.Font = _appS.GetFont();
             //mDividerTop.BackColor = _appS.GetMainColor();
         }
         private void frmMain_Load(object sender, EventArgs e)

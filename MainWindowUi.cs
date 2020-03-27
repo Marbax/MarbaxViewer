@@ -323,6 +323,27 @@ namespace MarbaxViewer
             }
         }
 
+        private void AddTag(params string[] tagedItems)
+        {
+            frmSearchByInput frm = new frmSearchByInput(ref _appS, frmSearchByInput.Mode.AddTag, tagedItems.Aggregate((f, s) => f + " " + s));
+
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                string newTags = frm.ToFindText;
+                foreach (string item in tagedItems)
+                {
+                    if (_appS.Tags.Count > 0 && _appS.Tags.Exists(t => t.Key == item))
+                    {
+                        int index = _appS.Tags.FindIndex(k => k.Key == item);
+                        string oldTags = _appS.Tags[index].Value;
+                        _appS.Tags.RemoveAt(index);
+                        _appS.Tags.Add(new KeyValuePair<string, string>(item, oldTags + newTags));
+                    }
+                    else
+                        _appS.Tags.Add(new KeyValuePair<string, string>(item, newTags));
+                }
+            }
+        }
 
         // isn't working with large files amount
         /*
@@ -915,5 +936,26 @@ namespace MarbaxViewer
                 }
             }
         }
+
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTag(tvDirBrowser.SelectedNode.Name);
+        }
+
+        private void addToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                List<string> selectedItems = new List<string>();
+                foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
+                    selectedItems.Add(lvItem.ImageKey);
+
+                AddTag(selectedItems.ToArray());
+            }
+            else
+                AddTag(lvFileBrowser.Tag as string);
+        }
+
+
     }
 }
