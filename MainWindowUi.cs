@@ -11,6 +11,7 @@ using MaterialSkin;
 using System.Security.Principal;
 using System.Security.AccessControl;
 using System.IO;
+using System.Drawing.Imaging;
 
 namespace MarbaxViewer
 {
@@ -372,6 +373,56 @@ namespace MarbaxViewer
             }
             else
                 MessageBox.Show($"{fPath} doesn't have Tags", "Oops", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void ConvertImageTo(AppSettings.ConvertableFormat format, List<string> files)
+        {
+            foreach (string file in files)
+            {
+                try
+                {
+                    string newFile = $"{Path.GetDirectoryName(file)}/{Path.GetFileNameWithoutExtension(file)}";
+                    using (Image img = Image.FromFile(file))
+                    {
+                        switch (format)
+                        {
+                            case AppSettings.ConvertableFormat.Png:
+                                img.Save($"{newFile}.png", ImageFormat.Png);
+                                break;
+                            case AppSettings.ConvertableFormat.Bmp:
+                                img.Save($"{newFile}.bmp", ImageFormat.Bmp);
+                                break;
+                            case AppSettings.ConvertableFormat.Gif:
+                                img.Save($"{newFile}.gif", ImageFormat.Gif);
+                                break;
+                            case AppSettings.ConvertableFormat.Icon:
+                                img.Save($"{newFile}.ico", ImageFormat.Icon);
+                                break;
+                            case AppSettings.ConvertableFormat.Jpeg:
+                                img.Save($"{newFile}.jepg", ImageFormat.Jpeg);
+                                break;
+                            case AppSettings.ConvertableFormat.Tiff:
+                                img.Save($"{newFile}.tiff", ImageFormat.Tiff);
+                                break;
+                        }
+                    }
+                    imgLCurrentDir.Images.Add(newFile, Image.FromFile(newFile));
+                    lvFileBrowser.Items.Add(Path.GetFileName(newFile), newFile);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Image convert exception : {ex.Message}");
+                }
+            }
+
+        }
+
+        private List<string> GetSelectedFilesPathesLV()
+        {
+            List<string> sFiles = new List<string>();
+            foreach (ListViewItem lvItem in lvFileBrowser.SelectedItems)
+                sFiles.Add(lvItem.ImageKey);
+            return sFiles;
         }
 
         // isn't working with large files amount
@@ -1024,5 +1075,56 @@ namespace MarbaxViewer
             EditTag(tvDirBrowser.SelectedNode.Name);
         }
 
+        private void pngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Png, GetSelectedFilesPathesLV());
+            }
+        }
+
+        private void jpegToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Jpeg, GetSelectedFilesPathesLV());
+            }
+        }
+
+        private void bmpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Bmp, GetSelectedFilesPathesLV());
+            }
+
+        }
+
+        private void gifToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Gif, GetSelectedFilesPathesLV());
+            }
+
+        }
+
+        private void iconToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Icon, GetSelectedFilesPathesLV());
+            }
+
+        }
+
+        private void tiffToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (lvFileBrowser.SelectedItems.Count > 0)
+            {
+                ConvertImageTo(AppSettings.ConvertableFormat.Tiff, GetSelectedFilesPathesLV());
+            }
+
+        }
     }
 }

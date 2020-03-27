@@ -63,6 +63,16 @@ namespace MarbaxViewer
             Light
         }
 
+        public enum ConvertableFormat
+        {
+            Png = 1,
+            Bmp,
+            Gif,
+            Icon,
+            Jpeg,
+            Tiff
+        }
+
         public AppSettings(MaterialSkinManager.Themes theme = MaterialSkinManager.Themes.DARK, ColorSchemes scheme = ColorSchemes.BlueGrey)
         {
             SkinManager = MaterialSkinManager.Instance;
@@ -86,6 +96,7 @@ namespace MarbaxViewer
                 AllowedImageFormats.Add(".tif");
             }
         }
+
 
         public void AddFormToManage(MaterialForm frm)
         {
